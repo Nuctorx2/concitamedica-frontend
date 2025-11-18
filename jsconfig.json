@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".", // ← FALTA ESTO (OBLIGATORIO)
+    "paths": {
+      "@/*": ["src/*"] // ← quita el "./" para evitar ambigüedades
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
