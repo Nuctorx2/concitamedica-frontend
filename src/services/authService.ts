@@ -20,6 +20,16 @@ export interface LoginResponse {
   token: string
 }
 
+export interface ProfileUpdateRequest {
+  nombre: string
+  apellido: string
+  documento: string
+  telefono: string
+  direccion: string
+  fechaNacimiento: string
+  genero: string
+}
+
 const authService = {
   /**
    * Paso 1: Obtener el token
@@ -50,6 +60,11 @@ const authService = {
 
   logout() {
     clearAccessToken()
+  },
+
+  async updateProfile(data: ProfileUpdateRequest): Promise<User> {
+    const res = await apiClient.put<User>('/auth/perfil', data)
+    return res.data
   },
 }
 

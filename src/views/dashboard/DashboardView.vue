@@ -48,7 +48,7 @@
             <p class="card-text text-muted small">
               {{ isPaciente ? 'Agenda tu próxima consulta.' : 'Revisa la agenda del día.' }}
             </p>
-            <RouterLink :to="{ name: 'citas' }" class="btn btn-outline-accent w-100 mt-2">
+            <RouterLink :to="citasRoute" class="btn btn-outline-accent w-100 mt-2">
               {{ isPaciente ? 'Agendar Cita' : 'Ver Agenda' }}
             </RouterLink>
           </div>
@@ -85,6 +85,15 @@ const userRoleRaw = computed(() => auth.user?.rol || '')
 
 // Lógica visual
 const isPaciente = computed(() => auth.isPaciente)
+
+// Ruta dinámica para el módulo de citas según el rol
+const citasRoute = computed(() => {
+  if (auth.isMedico) {
+    return { name: 'medico-agenda' } // Ruta del Médico
+  } else {
+    return { name: 'citas' } // Ruta del Paciente
+  }
+})
 
 const userRoleLabel = computed(() => {
   switch (userRoleRaw.value) {

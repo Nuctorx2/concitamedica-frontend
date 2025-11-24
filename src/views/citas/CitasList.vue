@@ -45,7 +45,7 @@
             </div>
 
             <h5 class="fw-bold mb-1">{{ cita.nombreMedico }}</h5>
-            <p class="text-muted small mb-3">Especialista</p>
+            <p class="text-muted small mb-3">{{ cita.especialidad }}</p>
 
             <hr class="opacity-10" />
 
@@ -96,10 +96,11 @@ function getStatusBadgeClass(status: string) {
   switch (status) {
     case 'AGENDADA':
       return 'bg-success-subtle text-success border border-success-subtle'
-    case 'CANCELADA':
-      return 'bg-danger-subtle text-danger border border-danger-subtle'
     case 'REALIZADA':
       return 'bg-secondary-subtle text-secondary'
+    case 'CANCELADA_PACIENTE':
+    case 'CANCELADA_ADMIN':
+      return 'bg-danger-subtle text-danger border border-danger-subtle'
     default:
       return 'bg-light text-dark'
   }

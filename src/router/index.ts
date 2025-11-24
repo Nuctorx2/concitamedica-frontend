@@ -29,6 +29,17 @@ import UsuarioEdit from '@/views/usuarios/UsuarioEdit.vue'
 // Perfil
 import PerfilView from '@/views/perfil/PerfilView.vue'
 
+// Mi Agenda (Médico)
+import MedicoAgenda from '@/views/citas/MedicoAgenda.vue'
+
+import AdminCitasList from '@/views/citas/AdminCitasList.vue'
+
+import MedicosList from '@/views/medicos/MedicosList.vue'
+
+import MedicoCreate from '@/views/medicos/MedicoCreate.vue'
+
+import MedicoEdit from '@/views/medicos/MedicoEdit.vue'
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -72,6 +83,36 @@ const router = createRouter({
 
         // ---- Perfil ----
         { path: 'perfil', name: 'perfil', component: PerfilView },
+
+        // ---- Mi Agenda (Médico) ----
+        {
+          path: 'medico/agenda',
+          name: 'medico-agenda',
+          component: MedicoAgenda,
+          meta: { authorize: ['ROLE_MEDICO'] },
+        },
+
+        {
+          path: 'admin/citas',
+          name: 'admin-citas',
+          component: AdminCitasList,
+          meta: { authorize: ['ROLE_ADMIN'] },
+        },
+
+        // ---- MÉDICOS ----
+        {
+          path: 'medicos',
+          name: 'medicos',
+          component: MedicosList,
+        },
+        // Dejamos preparado el placeholder para crear
+        {
+          path: 'medicos/crear',
+          name: 'medicos-create',
+          component: MedicoCreate, // Temporal hasta que hagamos la vista
+        },
+
+        { path: 'medicos/:id', name: 'medicos-edit', component: MedicoEdit },
       ],
     },
 

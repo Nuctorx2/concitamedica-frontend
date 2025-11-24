@@ -128,9 +128,9 @@ const form = reactive<PacienteCreateRequest>({
   email: '',
   telefono: '',
   direccion: '',
-  fechaNacimiento: '', // 🆕
-  genero: '', // 🆕
-  password: '123', // Enviamos algo por defecto o lo dejamos vacío si el backend lo maneja
+  fechaNacimiento: '',
+  genero: '',
+  password: '',
 })
 
 async function handleSubmit() {

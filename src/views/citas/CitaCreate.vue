@@ -300,34 +300,70 @@ async function fetchSlots() {
 }
 
 async function confirmarCita() {
-  if (!canSubmit.value) return
+  // 1. Guard Clause: Programación defensiva
+  // Evita envíos si el formulario no está listo o si ya se está enviando (doble clic)
+  if (!canSubmit.value || loading.submitting) return
 
+  // 2. Preparar UI
   loading.submitting = true
   errorGeneral.value = ''
 
   try {
-    // Construir ISO String: "YYYY-MM-DD" + "T" + "HH:mm:ss"
-    // Asumimos que 'form.hora' viene como "09:00:00" o "09:00"
-    let horaLimpia = form.hora
-    if (horaLimpia.length === 5) horaLimpia += ':00' // Asegurar segundos
+    // 3. Sanitización de Datos
+    // Aseguramos formato HH:mm:ss (Backend espera LocalTime)
+    // Si form.hora es "09:00", lo convertimos a "09:00:00"
+    const horaLimpia = form.hora.length === 5 ? `${form.hora}:00` : form.hora
 
+    // Construimos formato ISO estricto: YYYY-MM-DDTHH:mm:ss
     const fechaHoraISO = `${form.fecha}T${horaLimpia}`
 
+    console.log('📤 Enviando cita:', { medico: form.medicoId, fecha: fechaHoraISO })
+
+    // 4. Llamada al Store (API)
     await citasStore.agendarNuevaCita(form.medicoId!, fechaHoraISO)
 
-    // Éxito
-    alert('¡Cita agendada con éxito!')
-    router.push({ name: 'citas' })
+    // 5. Éxito
+    // Idealmente usaríamos un Toast/Notification aquí, pero el alert cumple por ahora.
+    // Usamos un pequeño timeout para dar feedback visual antes de cambiar de página.
+    setTimeout(async () => {
+      alert('¡Cita agendada con éxito!')
+      await router.push({ name: 'citas' })
+    }, 100)
   } catch (e: any) {
-    // Manejar error 409 Conflict (Horario ocupado mientras seleccionabas)
-    if (e.response && e.response.status === 409) {
+    console.error('❌ Error al agendar:', e)
+
+    // 6. Manejo de Errores Jerárquico
+    const backendMessage = e.response?.data?.message
+    const statusCode = e.response?.status
+
+    // Nivel 1: Mensaje de Negocio del Backend (El más valioso)
+    // Ej: "Ya tienes una cita de Medicina General..."
+    if (backendMessage) {
+      errorGeneral.value = backendMessage
+    }
+    // Nivel 2: Error de Conflicto Genérico (Si el backend no mandó mensaje)
+    else if (statusCode === 409) {
       errorGeneral.value =
-        'Lo sentimos, este horario acaba de ser ocupado. Por favor selecciona otro.'
-      fetchSlots() // Recargar slots
-    } else {
-      errorGeneral.value = 'Error al confirmar la cita. Intente nuevamente.'
+        'El horario seleccionado ya no está disponible o existe un conflicto con tu agenda.'
+    }
+    // Nivel 3: Errores de Validación (Datos mal formados)
+    else if (statusCode === 400) {
+      errorGeneral.value = 'Ocurrió un error con los datos enviados. Por favor recarga la página.'
+    }
+    // Nivel 4: Error de Servidor o Conexión
+    else {
+      errorGeneral.value = 'Ocurrió un error inesperado. Por favor intenta nuevamente más tarde.'
+    }
+
+    // 7. Reactividad ante Conflictos
+    // Si el error fue por disponibilidad (409), refrescamos los slots automáticamente
+    // para que el usuario vea qué horas quedan libres realmente.
+    if (statusCode === 409) {
+      await fetchSlots()
+      form.hora = '' // Desmarcamos la hora inválida
     }
   } finally {
+    // 8. Limpieza siempre, pase lo que pase
     loading.submitting = false
   }
 }

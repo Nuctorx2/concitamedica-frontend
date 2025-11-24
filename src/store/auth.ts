@@ -1,14 +1,20 @@
 // src/store/auth.ts
 import { defineStore } from 'pinia'
 import router from '@/router'
-import authService, { type LoginRequest } from '@/services/authService'
+import authService, { type LoginRequest, ProfileUpdateRequest } from '@/services/authService'
 
 // 👇 CORRECCIÓN 1: Usamos 'rol' (como en Java) y no 'role'.
 export interface User {
   id: number
   nombre: string
   email: string
-  rol: string // Debe coincidir con UsuarioResponseDTO del backend
+  rol: string
+  apellido?: string
+  documento?: string
+  telefono?: string
+  direccion?: string
+  fechaNacimiento?: string
+  genero?: string
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -82,6 +88,17 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('ccm_access_token')
       localStorage.removeItem('ccm_user')
       router.push({ name: 'login' }) // Usar push en vez de replace suele ser más seguro aquí
+    },
+
+    async actualizarPerfil(datos: ProfileUpdateRequest) {
+      try {
+        const usuarioActualizado = await authService.updateProfile(datos)
+        // Actualizamos el estado local y el localStorage
+        this.setUser(usuarioActualizado)
+        return true
+      } catch (e) {
+        throw e
+      }
     },
   },
 })
