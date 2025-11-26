@@ -1,13 +1,4 @@
-// src/services/pacientesService.ts
-// Servicio para manejar pacientes en ConCitaMedica
-// - CRUD completo
-// - Usa apiClient (envía automáticamente Authorization si existe token)
-// - Comentarios estilo estudiante de 1er semestre para dejar claro qué hace cada parte
-
 import apiClient from './apiClient'
-
-// Interfaz base del paciente según lo que normalmente se usa en un sistema médico
-// Ajusta los campos según tu backend real.
 export interface Paciente {
   id: number
   nombre: string
@@ -16,8 +7,9 @@ export interface Paciente {
   telefono: string
   direccion: string
   email?: string
-  fechaNacimiento: string // Spring Boot lo envía como "YYYY-MM-DD"
+  fechaNacimiento: string
   genero: string
+  activo: boolean
 }
 
 export interface PacienteCreateRequest {
@@ -27,7 +19,7 @@ export interface PacienteCreateRequest {
   telefono: string
   direccion: string
   email?: string
-  fechaNacimiento: string //Formato YYYY-MM-DD
+  fechaNacimiento: string
   genero: string
   password?: string
 }
@@ -39,16 +31,11 @@ export interface PacienteUpdateRequest {
   telefono?: string
   direccion?: string
   email?: string
-  fechaNacimiento: string // Spring Boot lo envía como "YYYY-MM-DD"
+  fechaNacimiento: string
   genero: string
 }
 
 const pacientesService = {
-  /**
-   * getAll()
-   * - Trae la lista completa de pacientes
-   * - GET /pacientes
-   */
   async getAll(): Promise<Paciente[]> {
     const res = await apiClient.get<Paciente[]>('/admin/pacientes')
     return res.data
@@ -58,33 +45,22 @@ const pacientesService = {
     const res = await apiClient.post<Paciente>('/admin/pacientes', data)
     return res.data
   },
-  /**
-   * getById(id)
-   * - Obtiene un paciente específico
-   * - GET /pacientes/{id}
-   */
   async getById(id: number): Promise<Paciente> {
     const res = await apiClient.get<Paciente>(`/admin/pacientes/${id}`)
     return res.data
   },
 
-  /**
-   * update(id, data)
-   * - Actualiza un paciente existente
-   * - PUT /pacientes/{id}
-   */
   async update(id: number, data: PacienteUpdateRequest): Promise<Paciente> {
     const res = await apiClient.put<Paciente>(`/admin/pacientes/${id}`, data)
     return res.data
   },
 
-  /**
-   * delete(id)
-   * - Elimina un paciente por ID
-   * - DELETE /pacientes/{id}
-   */
   async delete(id: number): Promise<void> {
-    await apiClient.delete(`/pacientes/${id}`)
+    await apiClient.delete(`/admin/pacientes/${id}`)
+  },
+
+  async reactivate(id: number): Promise<void> {
+    await apiClient.put(`/admin/pacientes/${id}/reactivar`)
   },
 }
 

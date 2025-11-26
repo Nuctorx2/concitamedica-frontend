@@ -15,10 +15,22 @@ export const navigation: NavItem[] = [
     roles: ['ROLE_ADMIN', 'ROLE_PACIENTE', 'ROLE_MEDICO'],
   },
   {
+    label: 'Perfil',
+    to: '/perfil',
+    icon: 'mdi-account-circle',
+    roles: ['ROLE_ADMIN', 'ROLE_PACIENTE', 'ROLE_MEDICO'],
+  },
+  {
     label: 'Pacientes',
     to: '/pacientes',
     icon: 'mdi-account-multiple',
     roles: ['ROLE_ADMIN', 'ROLE_MEDICO'],
+  },
+  {
+    label: 'Médicos',
+    to: '/medicos',
+    icon: 'mdi-doctor',
+    roles: ['ROLE_ADMIN'],
   },
   {
     label: 'Citas',
@@ -33,27 +45,9 @@ export const navigation: NavItem[] = [
     roles: ['ROLE_MEDICO'],
   },
   {
-    label: 'Perfil',
-    to: '/perfil',
-    icon: 'mdi-account-circle',
-    roles: ['ROLE_ADMIN', 'ROLE_PACIENTE', 'ROLE_MEDICO'],
-  },
-  {
-    label: 'Usuarios (Admin)',
-    to: '/usuarios',
-    icon: 'mdi-security',
-    roles: ['ROLE_ADMIN'],
-  },
-  {
     label: 'Gestión Citas',
     to: '/admin/citas',
     icon: 'mdi-calendar-multiple-check',
-    roles: ['ROLE_ADMIN'],
-  },
-  {
-    label: 'Médicos',
-    to: '/medicos',
-    icon: 'mdi-doctor',
     roles: ['ROLE_ADMIN'],
   },
 ]

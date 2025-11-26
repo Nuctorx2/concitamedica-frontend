@@ -12,6 +12,7 @@ export interface Medico {
   genero: string
   especialidadNombre: string
   especialidadId: number
+  activo: boolean
 }
 
 export interface MedicoCreateRequest {
@@ -76,6 +77,11 @@ const medicosService = {
   async update(id: number, data: MedicoUpdateRequest): Promise<Medico> {
     const res = await apiClient.put<Medico>(`/admin/medicos/${id}`, data)
     return res.data
+  },
+
+  //Reactivar médico (Admin)
+  async reactivate(id: number): Promise<void> {
+    await apiClient.put(`/admin/medicos/${id}/reactivar`)
   },
 }
 

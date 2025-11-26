@@ -21,7 +21,7 @@
     </div>
 
     <div class="row g-4">
-      <div class="col-md-6 col-lg-4" v-if="canViewPatients">
+      <div class="col-md-6 col-lg-4" v-if="auth.isAdmin || auth.isMedico">
         <div class="card h-100 border-0 shadow-sm hover-card">
           <div class="card-body text-center p-4">
             <div class="icon-circle bg-light-primary mb-3 mx-auto text-primary">
@@ -38,18 +38,61 @@
         </div>
       </div>
 
-      <div class="col-md-6 col-lg-4">
+      <div class="col-md-6 col-lg-4" v-if="auth.isAdmin">
+        <div class="card h-100 border-0 shadow-sm hover-card">
+          <div class="card-body text-center p-4">
+            <div class="icon-circle bg-light-primary mb-3 mx-auto text-primary">
+              <i class="mdi mdi-doctor"></i>
+            </div>
+            <h5 class="card-title fw-bold">Médicos</h5>
+            <p class="card-text text-muted small">Gestiona el personal médico.</p>
+            <RouterLink :to="{ name: 'medicos' }" class="btn btn-outline-primary w-100 mt-2">
+              Directorio
+            </RouterLink>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4" v-if="auth.isAdmin">
+        <div class="card h-100 border-0 shadow-sm hover-card">
+          <div class="card-body text-center p-4">
+            <div class="icon-circle bg-light-accent mb-3 mx-auto text-accent">
+              <i class="mdi mdi-calendar-multiple-check"></i>
+            </div>
+            <h5 class="card-title fw-bold">Control de Citas</h5>
+            <p class="card-text text-muted small">Supervisa y cancela citas globales.</p>
+            <RouterLink to="/admin/citas" class="btn btn-outline-accent w-100 mt-2">
+              Gestionar
+            </RouterLink>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4" v-if="auth.isPaciente">
         <div class="card h-100 border-0 shadow-sm hover-card">
           <div class="card-body text-center p-4">
             <div class="icon-circle bg-light-accent mb-3 mx-auto text-accent">
               <i class="mdi mdi-calendar-clock"></i>
             </div>
-            <h5 class="card-title fw-bold">Citas Médicas</h5>
-            <p class="card-text text-muted small">
-              {{ isPaciente ? 'Agenda tu próxima consulta.' : 'Revisa la agenda del día.' }}
-            </p>
-            <RouterLink :to="citasRoute" class="btn btn-outline-accent w-100 mt-2">
-              {{ isPaciente ? 'Agendar Cita' : 'Ver Agenda' }}
+            <h5 class="card-title fw-bold">Mis Citas</h5>
+            <p class="card-text text-muted small">Agenda o revisa tus consultas.</p>
+            <RouterLink :to="{ name: 'citas' }" class="btn btn-outline-accent w-100 mt-2">
+              Ver Mis Citas
+            </RouterLink>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4" v-if="auth.isMedico">
+        <div class="card h-100 border-0 shadow-sm hover-card">
+          <div class="card-body text-center p-4">
+            <div class="icon-circle bg-light-accent mb-3 mx-auto text-accent">
+              <i class="mdi mdi-calendar-text"></i>
+            </div>
+            <h5 class="card-title fw-bold">Mi Agenda</h5>
+            <p class="card-text text-muted small">Revisa tus consultas del día.</p>
+            <RouterLink :to="{ name: 'medico-agenda' }" class="btn btn-outline-accent w-100 mt-2">
+              Ver Agenda
             </RouterLink>
           </div>
         </div>
@@ -62,7 +105,7 @@
               <i class="mdi mdi-account-circle"></i>
             </div>
             <h5 class="card-title fw-bold">Mi Perfil</h5>
-            <p class="card-text text-muted small">Actualiza tus datos personales y contraseña.</p>
+            <p class="card-text text-muted small">Actualiza tus datos personales.</p>
             <RouterLink :to="{ name: 'perfil' }" class="btn btn-outline-dark w-100 mt-2">
               Ir al Perfil
             </RouterLink>
@@ -72,7 +115,6 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useAuthStore } from '@/store/auth'

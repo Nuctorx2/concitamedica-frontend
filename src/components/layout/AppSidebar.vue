@@ -8,9 +8,9 @@
         :key="item.label"
         :to="item.to"
         class="nav-item"
-        :class="{ 'router-link-active': route.path.startsWith(item.to) }"
+        :class="{ 'active-nav-item': isLinkActive(item.to) }"
       >
-        {{ item.label }}
+        <i :class="`mdi ${item.icon} me-2`"></i> {{ item.label }}
       </RouterLink>
     </nav>
 
@@ -21,26 +21,26 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useAuthStore } from '@/store/auth'
-import { useRoute, RouterLink } from 'vue-router' // RouterLink se importa para uso explícito si es necesario
+import { useRoute, RouterLink } from 'vue-router'
 import { navigation } from '@/config/navigation'
 
 const auth = useAuthStore()
-const route = useRoute() // Ahora sí se usa en el template
+const route = useRoute()
 
-// 3. CORRECCIÓN DE TIPO: Cambiamos .role por .rol
-// Nota: Asegúrate de que navigation.ts use los mismos strings que el backend (ej: ROLE_ADMIN)
 const userRole = computed(() => auth.user?.rol || '')
 
+// Filtramos el menú según el rol
 const filteredNavigation = computed(() =>
   navigation.filter((item) => item.roles.includes(userRole.value)),
 )
 
-// 👇 DIAGNÓSTICO (Borrar luego)
-console.log('--- DEBUG SIDEBAR ---')
-console.log('Usuario en Store:', auth.user)
-console.log('Rol detectado:', auth.user?.rol)
-console.log('Items de navegación:', navigation)
-// 👆 FIN DIAGNÓSTICO
+// Resaltar el menú activo
+function isLinkActive(path: string) {
+  if (path === '/') {
+    return route.path === '/'
+  }
+  return route.path.startsWith(path)
+}
 
 function logout() {
   auth.logout()
@@ -59,7 +59,7 @@ $color-text-light: #ffffff;
 
 .sidebar {
   width: 260px;
-  min-height: 100vh; // Asegura altura completa
+  min-height: 100vh;
   background-color: $color-primary;
   color: $color-text-light;
   border-right: 3px solid color.adjust($color-primary, $lightness: -10%);
@@ -80,7 +80,7 @@ $color-text-light: #ffffff;
     margin-bottom: 0.5rem;
     border-radius: 8px;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.8); // Blanco con transparencia
+    color: rgba(255, 255, 255, 0.8);
     font-weight: 500;
     transition: all 0.2s;
 
@@ -90,7 +90,7 @@ $color-text-light: #ffffff;
       transform: translateX(5px);
     }
 
-    &.router-link-active {
+    &.active-nav-item {
       background-color: $color-accent;
       color: white;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

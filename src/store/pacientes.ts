@@ -27,7 +27,7 @@ export const usePacientesStore = defineStore('pacientes', {
         this.pacientes = data
       } catch (err: any) {
         console.error('Error cargando pacientes:', err)
-        this.error = 'No se pudieron cargar los pacientes.'
+        this.error = err.response?.data?.message || 'No se pudieron cargar los pacientes.'
       } finally {
         this.loading = false
       }
@@ -38,12 +38,11 @@ export const usePacientesStore = defineStore('pacientes', {
       this.error = null
       try {
         const nuevo = await pacientesService.create(datos)
-        // Optimistic UI: Lo agregamos a la lista local inmediatamente
         this.pacientes.push(nuevo)
         return true
       } catch (err: any) {
         console.error('Error creando paciente:', err)
-        this.error = 'Error al guardar el paciente.'
+        this.error = err.response?.data?.message || 'Error al crear el paciente.'
         throw err
       } finally {
         this.loading = false
@@ -51,15 +50,17 @@ export const usePacientesStore = defineStore('pacientes', {
     },
 
     async eliminarPaciente(id: number) {
-      // Confirmación básica (aunque idealmente se hace en la vista)
       this.loading = true
+      this.error = null
       try {
         await pacientesService.delete(id)
-        // Actualizar la lista local filtrando el eliminado
-        this.pacientes = this.pacientes.filter((p) => p.id !== id)
+
+        const p = this.pacientes.find((x) => x.id === id)
+        if (p) p.activo = false
       } catch (err: any) {
-        console.error('Error eliminando:', err)
-        this.error = 'No se pudo eliminar el paciente.'
+        console.error('Error eliminando paciente:', err)
+        this.error =
+          err.response?.data?.message || 'Ocurrió un error al intentar inactivar el paciente.'
       } finally {
         this.loading = false
       }
@@ -76,7 +77,7 @@ export const usePacientesStore = defineStore('pacientes', {
         this.pacienteActual = data
       } catch (err: any) {
         console.error('Error cargando paciente:', err)
-        this.error = 'No se pudo cargar la información del paciente.'
+        this.error = err.response?.data?.message || 'No se pudo cargar el paciente.'
       } finally {
         this.loading = false
       }
@@ -85,6 +86,7 @@ export const usePacientesStore = defineStore('pacientes', {
     //Acción para actualizar
     async actualizarPaciente(id: number, datos: PacienteUpdateRequest) {
       this.loading = true
+      this.error = null
       try {
         const actualizado = await pacientesService.update(id, datos)
 
@@ -96,7 +98,25 @@ export const usePacientesStore = defineStore('pacientes', {
         return true
       } catch (err: any) {
         console.error('Error actualizando:', err)
+        this.error = err.response?.data?.message || 'Error al actualizar el paciente.'
         throw err
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async reactivarPaciente(id: number) {
+      this.loading = true
+      this.error = null
+      try {
+        await pacientesService.reactivate(id)
+        // Update local: marcar como activo
+        const p = this.pacientes.find((x) => x.id === id)
+        if (p) p.activo = true
+      } catch (err: any) {
+        console.error('Error reactivando paciente:', err)
+        this.error =
+          err.response?.data?.message || 'Ocurrió un error al intentar reactivar el paciente.'
       } finally {
         this.loading = false
       }
