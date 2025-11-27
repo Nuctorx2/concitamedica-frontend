@@ -100,5 +100,14 @@ export const useAuthStore = defineStore('auth', {
         throw e
       }
     },
+
+    async cambiarPassword(actual: string, nueva: string) {
+      try {
+        await authService.changePassword({ passwordActual: actual, nuevaPassword: nueva })
+        return true
+      } catch (e) {
+        throw e
+      }
+    },
   },
 })

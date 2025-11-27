@@ -32,10 +32,28 @@
               </h6>
               <div class="row g-3 mb-4">
                 <div class="col-md-6">
-                  <BaseInput id="nombre" label="Nombres" v-model="form.nombre" required />
+                  <BaseInput
+                    id="nombre"
+                    label="Nombres"
+                    v-model="form.nombre"
+                    required
+                    minlength="2"
+                    maxlength="40"
+                    pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
+                    title="Solo letras, espacios, acentos, guiones o apóstrofes. Entre 2 y 40 caracteres."
+                  />
                 </div>
                 <div class="col-md-6">
-                  <BaseInput id="apellido" label="Apellidos" v-model="form.apellido" required />
+                  <BaseInput
+                    id="apellido"
+                    label="Apellidos"
+                    v-model="form.apellido"
+                    required
+                    minlength="2"
+                    maxlength="40"
+                    pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
+                    title="Solo letras, espacios, acentos, guiones o apóstrofes. Entre 2 y 40 caracteres."
+                  />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
@@ -43,6 +61,10 @@
                     label="Documento ID"
                     v-model="form.documento"
                     required
+                    minlength="8"
+                    maxlength="10"
+                    pattern="[0-9]{8,10}"
+                    title="Entre 8 y 10 números"
                   />
                 </div>
                 <div class="col-md-6">
@@ -63,10 +85,27 @@
                   </select>
                 </div>
                 <div class="col-md-6">
-                  <BaseInput id="telefono" label="Teléfono" v-model="form.telefono" required />
+                  <BaseInput
+                    id="telefono"
+                    label="Teléfono"
+                    v-model="form.telefono"
+                    required
+                    minlength="7"
+                    maxlength="15"
+                    pattern="[0-9]{7,15}"
+                    title="Entre 7 y 15 números"
+                  />
                 </div>
                 <div class="col-12">
-                  <BaseInput id="direccion" label="Dirección" v-model="form.direccion" required />
+                  <BaseInput
+                    id="direccion"
+                    label="Dirección"
+                    v-model="form.direccion"
+                    required
+                    minlength="5"
+                    maxlength="100"
+                    title="Debe tener entre 5 y 100 caracteres."
+                  />
                 </div>
                 <div class="col-12">
                   <label class="form-label fw-bold text-secondary">Email (No editable)</label>

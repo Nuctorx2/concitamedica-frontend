@@ -40,6 +40,8 @@ import MedicoCreate from '@/views/medicos/MedicoCreate.vue'
 
 import MedicoEdit from '@/views/medicos/MedicoEdit.vue'
 
+import MedicoHorarios from '@/views/medicos/MedicoHorarios.vue'
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -105,14 +107,20 @@ const router = createRouter({
           name: 'medicos',
           component: MedicosList,
         },
-        // Dejamos preparado el placeholder para crear
+
         {
           path: 'medicos/crear',
           name: 'medicos-create',
-          component: MedicoCreate, // Temporal hasta que hagamos la vista
+          component: MedicoCreate,
         },
 
         { path: 'medicos/:id', name: 'medicos-edit', component: MedicoEdit },
+
+        {
+          path: 'medicos/:id/horarios',
+          name: 'medicos-horarios',
+          component: MedicoHorarios,
+        },
       ],
     },
 

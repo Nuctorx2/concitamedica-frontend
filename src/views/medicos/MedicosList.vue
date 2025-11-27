@@ -136,6 +136,15 @@
                       <i class="mdi mdi-pencil-outline"></i>
                     </RouterLink>
 
+                    <RouterLink
+                      v-if="medico.activo"
+                      :to="{ name: 'medicos-horarios', params: { id: medico.id } }"
+                      class="btn-icon btn-schedule"
+                      title="Gestionar Horarios"
+                    >
+                      <i class="mdi mdi-calendar-clock"></i>
+                    </RouterLink>
+
                     <button
                       v-if="!medico.activo"
                       class="btn-icon btn-restore"
@@ -276,6 +285,13 @@ function reactivarMedico(id: number) {
     color: #ff9800;
     &:hover {
       background-color: rgba(255, 152, 0, 0.1);
+    }
+  }
+
+  &.btn-schedule {
+    color: #6f42c1; // Morado
+    &:hover {
+      background-color: rgba(111, 66, 193, 0.1);
     }
   }
 }

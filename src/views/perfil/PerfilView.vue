@@ -78,13 +78,71 @@
                 </div>
               </div>
 
-              <div class="d-flex justify-content-end gap-3 mt-4">
-                <button type="button" class="btn btn-light text-danger" @click="changePassword">
-                  <i class="mdi mdi-lock-reset me-1"></i> Cambiar Contraseña
+              <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                <button type="button" class="btn btn-outline-danger" @click="togglePasswordForm">
+                  <i class="mdi" :class="showPasswordForm ? 'mdi-close' : 'mdi-lock-reset'"></i>
+                  {{ showPasswordForm ? 'Cancelar Cambio' : 'Cambiar Contraseña' }}
                 </button>
-                <BaseButton type="submit" :loading="saving" style="max-width: 200px">
+
+                <BaseButton
+                  v-if="!showPasswordForm"
+                  type="submit"
+                  :loading="saving"
+                  style="max-width: 200px"
+                >
                   Actualizar Datos
                 </BaseButton>
+              </div>
+
+              <div
+                v-if="showPasswordForm"
+                class="mt-4 p-4 bg-light rounded-3 border border-danger-subtle"
+              >
+                <h6 class="text-danger fw-bold mb-3">
+                  <i class="mdi mdi-shield-key me-1"></i> Seguridad
+                </h6>
+
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Contraseña Actual</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      v-model="passForm.actual"
+                      placeholder="••••••"
+                    />
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Nueva Contraseña</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      v-model="passForm.nueva"
+                      placeholder="Mínimo 5 caracteres"
+                    />
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Confirmar Nueva</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      v-model="passForm.confirmacion"
+                      placeholder="Repite la nueva"
+                    />
+                  </div>
+
+                  <div class="col-12 text-end mt-3">
+                    <button
+                      type="button"
+                      class="btn btn-danger px-4"
+                      :disabled="saving"
+                      @click="handleChangePassword"
+                    >
+                      <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
+                      Confirmar Cambio de Clave
+                    </button>
+                  </div>
+                </div>
               </div>
             </form>
           </div>
@@ -100,6 +158,13 @@ import { useAuthStore } from '@/store/auth'
 import authService from '@/services/authService'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+
+const showPasswordForm = ref(false)
+const passForm = reactive({
+  actual: '',
+  nueva: '',
+  confirmacion: '',
+})
 
 const authStore = useAuthStore()
 const saving = ref(false)
@@ -158,6 +223,33 @@ async function handleUpdate() {
 
 function changePassword() {
   alert('Funcionalidad de cambio de contraseña pendiente de implementar.')
+}
+
+async function handleChangePassword() {
+  if (passForm.nueva !== passForm.confirmacion) {
+    alert('Las nuevas contraseñas no coinciden.')
+    return
+  }
+
+  saving.value = true
+  try {
+    await authStore.cambiarPassword(passForm.actual, passForm.nueva)
+    alert('Contraseña actualizada correctamente. Por favor inicia sesión de nuevo.')
+    authStore.logout() // Buena práctica: cerrar sesión tras cambio de clave
+  } catch (e: any) {
+    const msg = e.response?.data?.message || 'Error al cambiar la contraseña'
+    alert(msg)
+  } finally {
+    saving.value = false
+  }
+}
+
+function togglePasswordForm() {
+  showPasswordForm.value = !showPasswordForm.value
+  // Limpiar campos al cerrar/abrir
+  passForm.actual = ''
+  passForm.nueva = ''
+  passForm.confirmacion = ''
 }
 </script>
 

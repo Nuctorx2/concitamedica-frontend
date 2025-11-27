@@ -21,8 +21,13 @@
                     v-model="form.nombre"
                     placeholder="Ej. Juan"
                     required
+                    minlength="2"
+                    maxlength="40"
+                    pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
+                    title="Solo letras, espacios, acentos, guiones o apóstrofes. Entre 2 y 40 caracteres."
                   />
                 </div>
+
                 <div class="col-md-6">
                   <BaseInput
                     id="apellido"
@@ -30,6 +35,10 @@
                     v-model="form.apellido"
                     placeholder="Ej. Pérez"
                     required
+                    minlength="2"
+                    maxlength="40"
+                    pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
+                    title="Solo letras, espacios, acentos, guiones o apóstrofes. Entre 2 y 40 caracteres."
                   />
                 </div>
 
@@ -40,6 +49,10 @@
                     v-model="form.documento"
                     icon="mdi-card-account-details"
                     required
+                    minlength="8"
+                    maxlength="10"
+                    pattern="[0-9]{8,10}"
+                    title="Entre 8 y 10 dígitos numéricos (sin puntos ni espacios)"
                   />
                 </div>
 
@@ -70,8 +83,13 @@
                     v-model="form.telefono"
                     icon="mdi-phone"
                     required
+                    minlength="7"
+                    maxlength="15"
+                    pattern="[0-9]{7,15}"
+                    title="Entre 7 y 15 dígitos numéricos"
                   />
                 </div>
+
                 <div class="col-12">
                   <BaseInput
                     id="email"
@@ -82,6 +100,7 @@
                     required
                   />
                 </div>
+
                 <div class="col-12">
                   <BaseInput
                     id="direccion"
@@ -89,6 +108,8 @@
                     v-model="form.direccion"
                     icon="mdi-map-marker"
                     required
+                    minlength="5"
+                    maxlength="100"
                   />
                 </div>
               </div>
@@ -134,11 +155,11 @@ const form = reactive<PacienteCreateRequest>({
 })
 
 async function handleSubmit() {
+  form.password = '12345678'
+  if (!form.telefono) delete (form as any).telefono
   try {
     await store.crearPaciente(form)
     router.push({ name: 'pacientes' })
-  } catch (error) {
-    // El manejo de error ya está en el store
-  }
+  } catch (error) {}
 }
 </script>

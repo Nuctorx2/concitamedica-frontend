@@ -36,6 +36,7 @@
                     type="email"
                     icon="mdi-email"
                     required
+                    title="Formato válido requerido: usuario@dominio.com"
                   />
                 </div>
                 <div class="col-md-6">
@@ -46,6 +47,9 @@
                     type="password"
                     icon="mdi-lock"
                     required
+                    minlength="5"
+                    maxlength="50"
+                    message="Debe tener entre 5 y 50 caracteres."
                   />
                 </div>
               </div>
@@ -55,10 +59,28 @@
               </h6>
               <div class="row g-3 mb-4">
                 <div class="col-md-6">
-                  <BaseInput id="nombre" label="Nombres" v-model="form.nombre" required />
+                  <BaseInput
+                    id="nombre"
+                    label="Nombre"
+                    v-model="form.nombre"
+                    required
+                    minlength="2"
+                    maxlength="40"
+                    pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
+                    title="Solo letras, espacios, acentos, guiones o apóstrofes. Entre 2 y 40 caracteres."
+                  />
                 </div>
                 <div class="col-md-6">
-                  <BaseInput id="apellido" label="Apellidos" v-model="form.apellido" required />
+                  <BaseInput
+                    id="apellido"
+                    label="Apellidos"
+                    v-model="form.apellido"
+                    required
+                    minlength="2"
+                    maxlength="40"
+                    pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
+                    title="Solo letras, espacios, acentos, guiones o apóstrofes. Entre 2 y 40 caracteres."
+                  />
                 </div>
 
                 <div class="col-md-6">
@@ -68,6 +90,10 @@
                     v-model="form.documento"
                     icon="mdi-card-account-details"
                     required
+                    minlength="8"
+                    maxlength="10"
+                    pattern="[0-9]{8,10}"
+                    title="Entre 8 y 10 números"
                   />
                 </div>
 
@@ -100,6 +126,10 @@
                     v-model="form.telefono"
                     icon="mdi-phone"
                     required
+                    minlength="7"
+                    maxlength="15"
+                    pattern="[0-9]{7,15}"
+                    title="Entre 7 y 15 números"
                   />
                 </div>
 
@@ -110,6 +140,9 @@
                     v-model="form.direccion"
                     icon="mdi-map-marker"
                     required
+                    minlength="5"
+                    maxlength="100"
+                    title="Debe tener entre 5 y 100 caracteres."
                   />
                 </div>
               </div>
@@ -181,7 +214,6 @@ async function handleSubmit() {
   errorMsg.value = ''
 
   try {
-    // TypeScript necesita asegurar que especialidadId es number, no null
     await store.crearMedico({
       ...form,
       especialidadId: form.especialidadId!,
@@ -190,7 +222,6 @@ async function handleSubmit() {
     alert('Médico registrado exitosamente.')
     router.push({ name: 'medicos' })
   } catch (e: any) {
-    // Manejo de errores del backend (ej. Email duplicado)
     if (e.response && e.response.data && e.response.data.message) {
       errorMsg.value = e.response.data.message
     } else {
