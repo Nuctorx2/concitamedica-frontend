@@ -1,4 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
+import fs from 'fs'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -12,16 +13,17 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  // 👇 ESTA ES LA PARTE QUE TE FALTA PARA CONECTAR CON SPRING BOOT
   server: {
     port: 5173, // Puerto del frontend
+    https: {
+      key: fs.readFileSync('./localhost+1-key.pem'),
+      cert: fs.readFileSync('./localhost+1.pem'),
+    },
     proxy: {
       '/api': {
-        target: 'http://localhost:8080', // 👈 Apuntamos al Backend Java
+        target: 'https://localhost:8080', // Backend Java
         changeOrigin: true,
         secure: false,
-        // Como tu backend YA tiene /api en el Controller (@RequestMapping("/api/auth")),
-        // NO necesitamos reescribir la ruta. Se envía tal cual.
       },
     },
   },
