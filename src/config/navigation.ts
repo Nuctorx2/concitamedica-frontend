@@ -9,43 +9,43 @@ export interface NavItem {
 
 export const navigation: NavItem[] = [
   {
-    label: 'Dashboard',
+    label: 'menu.dashboard',
     to: '/',
     icon: 'mdi-view-dashboard',
     roles: ['ROLE_ADMIN', 'ROLE_PACIENTE', 'ROLE_MEDICO'],
   },
   {
-    label: 'Perfil',
+    label: 'menu.profile',
     to: '/perfil',
     icon: 'mdi-account-circle',
     roles: ['ROLE_ADMIN', 'ROLE_PACIENTE', 'ROLE_MEDICO'],
   },
   {
-    label: 'Pacientes',
+    label: 'menu.patients',
     to: '/pacientes',
     icon: 'mdi-account-multiple',
     roles: ['ROLE_ADMIN', 'ROLE_MEDICO'],
   },
   {
-    label: 'Médicos',
+    label: 'menu.doctors',
     to: '/medicos',
     icon: 'mdi-doctor',
     roles: ['ROLE_ADMIN'],
   },
   {
-    label: 'Citas',
+    label: 'menu.appointments',
     to: '/citas',
     icon: 'mdi-calendar',
     roles: ['ROLE_PACIENTE'],
   },
   {
-    label: 'Mi Agenda',
+    label: 'menu.my_agenda',
     to: '/medico/agenda',
     icon: 'mdi-calendar-text',
     roles: ['ROLE_MEDICO'],
   },
   {
-    label: 'Gestión Citas',
+    label: 'menu.appointments_management',
     to: '/admin/citas',
     icon: 'mdi-calendar-multiple-check',
     roles: ['ROLE_ADMIN'],

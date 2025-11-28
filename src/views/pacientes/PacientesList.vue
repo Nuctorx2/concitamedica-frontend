@@ -2,13 +2,21 @@
   <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div>
-        <h3 class="fw-bold text-dark">Pacientes</h3>
-        <p class="text-muted mb-0">Gestión del directorio de pacientes.</p>
+        <h3 class="fw-bold text-dark">{{ $t('pacientes.list.header.title') }}</h3>
+        <p class="text-muted mb-0">{{ $t('pacientes.list.header.subtitle') }}</p>
       </div>
+
+      <button
+        class="btn btn-outline-danger me-2"
+        @click="descargarReporte"
+        :title="$t('pacientes.list.header.btnReportTooltip')"
+      >
+        <i class="mdi mdi-file-pdf-box"></i> {{ $t('pacientes.list.header.btnReport') }}
+      </button>
 
       <div class="d-flex align-items-center gap-3">
         <RouterLink v-if="auth.isAdmin" :to="{ name: 'pacientes-create' }" class="btn btn-primary">
-          <i class="mdi mdi-plus me-1"></i> Nuevo Paciente
+          <i class="mdi mdi-plus me-1"></i> {{ $t('pacientes.list.header.btnNew') }}
         </RouterLink>
       </div>
     </div>
@@ -18,13 +26,13 @@
         <div class="row g-3 align-items-center">
           <div class="col-md-5">
             <div class="input-group">
-              <span class="input-group-text bg-white border-end-0 text-muted"
-                ><i class="mdi mdi-magnify"></i
-              ></span>
+              <span class="input-group-text bg-white border-end-0 text-muted">
+                <i class="mdi mdi-magnify"></i>
+              </span>
               <input
                 type="text"
                 class="form-control border-start-0 ps-0"
-                placeholder="Buscar por Nombre, Documento o Email..."
+                :placeholder="$t('pacientes.list.filters.searchPlaceholder')"
                 v-model="textoBusqueda"
               />
             </div>
@@ -39,13 +47,14 @@
                 v-model="mostrarInactivos"
               />
               <label class="form-check-label small text-secondary" for="filterInactive">
-                Mostrar Inactivos
+                {{ $t('pacientes.list.filters.showInactive') }}
               </label>
             </div>
           </div>
 
           <div class="col-md-3 text-end text-muted small">
-            <strong>{{ pacientesFiltrados.length }}</strong> pacientes encontrados
+            <strong>{{ pacientesFiltrados.length }}</strong>
+            {{ $t('pacientes.list.filters.results') }}
           </div>
         </div>
       </div>
@@ -61,15 +70,23 @@
           <table class="table table-hover align-middle mb-0">
             <thead class="bg-light">
               <tr>
-                <th class="ps-4 py-3 text-secondary small text-uppercase">Paciente</th>
-                <th class="py-3 text-secondary small text-uppercase">Documento</th>
-                <th class="py-3 text-secondary small text-uppercase">Contacto</th>
-                <th class="py-3 text-secondary small text-uppercase">Estado</th>
+                <th class="ps-4 py-3 text-secondary small text-uppercase">
+                  {{ $t('pacientes.list.table.thead.patient') }}
+                </th>
+                <th class="py-3 text-secondary small text-uppercase">
+                  {{ $t('pacientes.list.table.thead.document') }}
+                </th>
+                <th class="py-3 text-secondary small text-uppercase">
+                  {{ $t('pacientes.list.table.thead.contact') }}
+                </th>
+                <th class="py-3 text-secondary small text-uppercase">
+                  {{ $t('pacientes.list.table.thead.status') }}
+                </th>
                 <th
                   v-if="auth.isAdmin"
                   class="pe-4 py-3 text-end text-secondary small text-uppercase"
                 >
-                  Acciones
+                  {{ $t('pacientes.list.table.thead.actions') }}
                 </th>
               </tr>
             </thead>
@@ -91,7 +108,9 @@
 
                 <td>
                   <div class="fw-bold text-dark">{{ paciente.documento }}</div>
-                  <div class="small text-muted">{{ paciente.genero }}</div>
+                  <div class="small text-muted">
+                    {{ paciente.genero ? $t('common.gender_' + paciente.genero) : '-' }}
+                  </div>
                 </td>
 
                 <td>
@@ -113,7 +132,11 @@
                         : 'bg-secondary-subtle text-secondary border-secondary-subtle'
                     "
                   >
-                    {{ paciente.activo ? 'Activo' : 'Inactivo' }}
+                    {{
+                      paciente.activo
+                        ? $t('pacientes.list.table.row.statusActive')
+                        : $t('pacientes.list.table.row.statusInactive')
+                    }}
                   </span>
                 </td>
 
@@ -123,7 +146,7 @@
                       v-if="paciente.activo"
                       :to="{ name: 'pacientes-edit', params: { id: paciente.id } }"
                       class="btn-icon btn-edit"
-                      title="Editar"
+                      :title="$t('pacientes.list.actions.tooltipEdit')"
                     >
                       <i class="mdi mdi-pencil-outline"></i>
                     </RouterLink>
@@ -131,7 +154,7 @@
                     <button
                       v-if="!paciente.activo"
                       class="btn-icon btn-restore"
-                      title="Reactivar Paciente"
+                      :title="$t('pacientes.list.actions.tooltipReactivate')"
                       @click="reactivar(paciente.id)"
                     >
                       <i class="mdi mdi-refresh"></i>
@@ -140,7 +163,7 @@
                     <button
                       v-if="paciente.activo"
                       class="btn-icon btn-delete"
-                      title="Inactivar Paciente"
+                      :title="$t('pacientes.list.actions.tooltipDelete')"
                       @click="eliminar(paciente.id)"
                     >
                       <i class="mdi mdi-account-remove-outline"></i>
@@ -157,12 +180,15 @@
 </template>
 
 <script setup lang="ts">
+import apiClient from '@/services/apiClient'
 import { ref, computed, onMounted } from 'vue'
 import { usePacientesStore } from '@/store/pacientes'
 import { useAuthStore } from '@/store/auth'
+import { useI18n } from 'vue-i18n' // 1. Importar hook de i18n
 
 const store = usePacientesStore()
 const auth = useAuthStore()
+const { t } = useI18n() // 2. Obtener función t
 
 const mostrarInactivos = ref(false)
 const textoBusqueda = ref('')
@@ -197,14 +223,35 @@ function getInitials(n: string, a: string) {
 }
 
 function eliminar(id: number) {
-  if (confirm('¿Inactivar paciente? Se cancelarán sus citas futuras.')) {
+  // 3. Usar t() para confirmar eliminación
+  if (confirm(t('pacientes.list.messages.confirmDelete'))) {
     store.eliminarPaciente(id)
   }
 }
 
 function reactivar(id: number) {
-  if (confirm('¿Reactivar paciente? Podrá volver a iniciar sesión.')) {
+  // 4. Usar t() para confirmar reactivación
+  if (confirm(t('pacientes.list.messages.confirmReactivate'))) {
     store.reactivarPaciente(id)
+  }
+}
+
+async function descargarReporte() {
+  try {
+    const response = await apiClient.get('/admin/reportes/pacientes', {
+      responseType: 'blob',
+    })
+
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'Pacientes_reporte.pdf')
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  } catch (e) {
+    // 5. Usar t() para error de reporte
+    alert(t('pacientes.list.messages.errorReport'))
   }
 }
 </script>

@@ -2,17 +2,18 @@
   <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div>
-        <h3 class="fw-bold text-dark">Mis Citas Médicas</h3>
-        <p class="text-muted mb-0">Consulta tus próximas visitas y el historial.</p>
+        <h3 class="fw-bold text-dark">{{ $t('appointments.list_title') }}</h3>
+        <p class="text-muted mb-0">{{ $t('appointments.list_subtitle') }}</p>
       </div>
+
       <RouterLink :to="{ name: 'citas-create' }" class="btn btn-primary fw-bold">
-        <i class="mdi mdi-plus-circle-outline me-1"></i> Agendar Cita
+        <i class="mdi mdi-plus-circle-outline me-1"></i> {{ $t('appointments.btn_schedule_new') }}
       </RouterLink>
     </div>
 
     <div v-if="store.loading" class="text-center py-5">
       <div class="spinner-border text-primary" role="status"></div>
-      <p class="mt-2 text-muted">Cargando tu agenda...</p>
+      <p class="mt-2 text-muted">{{ $t('appointments.loading_agenda') }}</p>
     </div>
 
     <div v-else-if="store.error" class="alert alert-danger">
@@ -23,10 +24,10 @@
       <div class="empty-state-icon mb-3">
         <i class="mdi mdi-calendar-blank text-muted opacity-25" style="font-size: 4rem"></i>
       </div>
-      <h5 class="fw-bold text-secondary">No tienes citas programadas</h5>
-      <p class="text-muted">Agenda tu primera consulta médica ahora mismo.</p>
+      <h5 class="fw-bold text-secondary">{{ $t('appointments.empty_title') }}</h5>
+      <p class="text-muted">{{ $t('appointments.empty_desc') }}</p>
       <RouterLink :to="{ name: 'citas-create' }" class="btn btn-outline-primary mt-2">
-        Comenzar
+        {{ $t('appointments.btn_start') }}
       </RouterLink>
     </div>
 
@@ -51,10 +52,13 @@
 
             <div class="d-flex justify-content-between align-items-center">
               <span class="badge" :class="getStatusBadgeClass(cita.estado)">
-                {{ cita.estado }}
+                {{ $t('status.' + cita.estado) }}
               </span>
 
-              <button class="btn btn-sm btn-light rounded-circle" title="Ver detalles">
+              <button
+                class="btn btn-sm btn-light rounded-circle"
+                :title="$t('appointments.view_details')"
+              >
                 <i class="mdi mdi-chevron-right"></i>
               </button>
             </div>
@@ -68,8 +72,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useCitasStore } from '@/store/citas'
+import { useI18n } from 'vue-i18n'
 
 const store = useCitasStore()
+const { locale } = useI18n()
 
 onMounted(() => {
   store.fetchMisCitas()
@@ -79,7 +85,7 @@ onMounted(() => {
 
 function getMonth(isoString: string) {
   const date = new Date(isoString)
-  return date.toLocaleString('es-ES', { month: 'short' }).toUpperCase()
+  return date.toLocaleString(locale.value, { month: 'short' }).toUpperCase()
 }
 
 function getDay(isoString: string) {
@@ -89,7 +95,7 @@ function getDay(isoString: string) {
 
 function formatTime(isoString: string) {
   const date = new Date(isoString)
-  return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true })
+  return date.toLocaleTimeString(locale.value, { hour: '2-digit', minute: '2-digit', hour12: true })
 }
 
 function getStatusBadgeClass(status: string) {

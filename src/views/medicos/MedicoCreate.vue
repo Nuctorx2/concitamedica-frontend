@@ -4,25 +4,25 @@
       <div class="col-12 col-md-10 col-lg-8">
         <div class="mb-3">
           <RouterLink :to="{ name: 'medicos' }" class="text-decoration-none text-muted small">
-            <i class="mdi mdi-arrow-left"></i> Volver al directorio
+            <i class="mdi mdi-arrow-left"></i> {{ $t('medicos.back_to_directory') }}
           </RouterLink>
         </div>
 
         <div class="card border-0 shadow-sm rounded-4">
           <div class="card-body p-4">
-            <h4 class="fw-bold mb-4 text-primary">Registrar Nuevo Médico</h4>
+            <h4 class="fw-bold mb-4 text-primary">{{ $t('medicos.create_title') }}</h4>
 
             <form @submit.prevent="handleSubmit">
               <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">
-                Información Profesional
+                {{ $t('medicos.create_subtitle') }}
               </h6>
               <div class="row g-3 mb-4">
                 <div class="col-md-6">
-                  <label class="form-label fw-bold text-secondary"
-                    >Especialidad <span class="text-danger">*</span></label
-                  >
+                  <label class="form-label fw-bold text-secondary">
+                    {{ $t('medicos.specialty_required') }} <span class="text-danger">*</span>
+                  </label>
                   <select class="form-select py-2" v-model="form.especialidadId" required>
-                    <option :value="null" disabled>Seleccione una especialidad...</option>
+                    <option :value="null" disabled>{{ $t('medicos.select_specialty') }}</option>
                     <option v-for="esp in especialidades" :key="esp.id" :value="esp.id">
                       {{ esp.nombre }}
                     </option>
@@ -31,76 +31,76 @@
                 <div class="col-md-6">
                   <BaseInput
                     id="email"
-                    label="Correo Institucional"
+                    :label="$t('medicos.institutional_email')"
                     v-model="form.email"
                     type="email"
                     icon="mdi-email"
                     required
-                    title="Formato válido requerido: usuario@dominio.com"
+                    :title="$t('auth.email_placeholder')"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
                     id="password"
-                    label="Contraseña Temporal"
+                    :label="$t('medicos.temp_password')"
                     v-model="form.password"
                     type="password"
                     icon="mdi-lock"
                     required
                     minlength="5"
                     maxlength="50"
-                    message="Debe tener entre 5 y 50 caracteres."
+                    :message="$t('auth.help_password_min')"
                   />
                 </div>
               </div>
 
               <h6 class="text-muted text-uppercase small fw-bold mb-3 border-bottom pb-2">
-                Datos Personales
+                {{ $t('medicos.personal_data') }}
               </h6>
               <div class="row g-3 mb-4">
                 <div class="col-md-6">
                   <BaseInput
                     id="nombre"
-                    label="Nombre"
+                    :label="$t('auth.names')"
                     v-model="form.nombre"
                     required
                     minlength="2"
                     maxlength="40"
                     pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
-                    title="Solo letras, espacios, acentos, guiones o apóstrofes. Entre 2 y 40 caracteres."
+                    :title="$t('auth.help_names')"
                   />
                 </div>
                 <div class="col-md-6">
                   <BaseInput
                     id="apellido"
-                    label="Apellidos"
+                    :label="$t('auth.surnames')"
                     v-model="form.apellido"
                     required
                     minlength="2"
                     maxlength="40"
                     pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
-                    title="Solo letras, espacios, acentos, guiones o apóstrofes. Entre 2 y 40 caracteres."
+                    :title="$t('auth.help_names')"
                   />
                 </div>
 
                 <div class="col-md-6">
                   <BaseInput
                     id="documento"
-                    label="Documento ID"
+                    :label="$t('auth.document_id')"
                     v-model="form.documento"
                     icon="mdi-card-account-details"
                     required
                     minlength="8"
                     maxlength="10"
                     pattern="[0-9]{8,10}"
-                    title="Entre 8 y 10 números"
+                    :title="$t('auth.help_document')"
                   />
                 </div>
 
                 <div class="col-md-6">
                   <BaseInput
                     id="fechaNacimiento"
-                    label="Fecha de Nacimiento"
+                    :label="$t('auth.birthdate')"
                     v-model="form.fechaNacimiento"
                     type="date"
                     required
@@ -108,41 +108,41 @@
                 </div>
 
                 <div class="col-md-6">
-                  <label class="form-label fw-bold text-secondary"
-                    >Género <span class="text-danger">*</span></label
-                  >
+                  <label class="form-label fw-bold text-secondary">
+                    {{ $t('auth.gender') }} <span class="text-danger">*</span>
+                  </label>
                   <select class="form-select py-2" v-model="form.genero" required>
-                    <option value="" disabled>Seleccione...</option>
-                    <option value="MASCULINO">Masculino</option>
-                    <option value="FEMENINO">Femenino</option>
-                    <option value="OTRO">Otro</option>
+                    <option value="" disabled>{{ $t('common.select_placeholder') }}</option>
+                    <option value="MASCULINO">{{ $t('common.gender_male') }}</option>
+                    <option value="FEMENINO">{{ $t('common.gender_female') }}</option>
+                    <option value="OTRO">{{ $t('common.gender_other') }}</option>
                   </select>
                 </div>
 
                 <div class="col-md-6">
                   <BaseInput
                     id="telefono"
-                    label="Teléfono Móvil"
+                    :label="$t('auth.mobile_phone')"
                     v-model="form.telefono"
                     icon="mdi-phone"
                     required
                     minlength="7"
                     maxlength="15"
                     pattern="[0-9]{7,15}"
-                    title="Entre 7 y 15 números"
+                    :title="$t('auth.help_phone')"
                   />
                 </div>
 
                 <div class="col-12">
                   <BaseInput
                     id="direccion"
-                    label="Dirección de Residencia"
+                    :label="$t('auth.address')"
                     v-model="form.direccion"
                     icon="mdi-map-marker"
                     required
                     minlength="5"
                     maxlength="100"
-                    title="Debe tener entre 5 y 100 caracteres."
+                    :title="$t('auth.placeholder_address')"
                   />
                 </div>
               </div>
@@ -152,11 +152,11 @@
               </div>
 
               <div class="d-flex gap-3">
-                <RouterLink :to="{ name: 'medicos' }" class="btn btn-light flex-grow-1"
-                  >Cancelar</RouterLink
-                >
+                <RouterLink :to="{ name: 'medicos' }" class="btn btn-light flex-grow-1">
+                  {{ $t('common.cancel_btn') }}
+                </RouterLink>
                 <BaseButton type="submit" :loading="loading" class="flex-grow-1">
-                  Contratar Médico
+                  {{ $t('medicos.btn_hire') }}
                 </BaseButton>
               </div>
             </form>
@@ -174,9 +174,11 @@ import { useMedicosStore } from '@/store/medicos'
 import especialidadesService, { type Especialidad } from '@/services/especialidadesService'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const store = useMedicosStore()
+const { t } = useI18n()
 
 const loading = ref(false)
 const errorMsg = ref('')
@@ -187,7 +189,7 @@ const form = reactive({
   apellido: '',
   documento: '',
   email: '',
-  password: '', // Se enviará para crear el usuario
+  password: '',
   telefono: '',
   direccion: '',
   fechaNacimiento: '',
@@ -196,17 +198,16 @@ const form = reactive({
 })
 
 onMounted(async () => {
-  // Cargar catálogo de especialidades
   try {
     especialidades.value = await especialidadesService.getAll()
   } catch (e) {
-    errorMsg.value = 'No se pudieron cargar las especialidades.'
+    errorMsg.value = t('medicos.error_load_specialties')
   }
 })
 
 async function handleSubmit() {
   if (!form.especialidadId) {
-    errorMsg.value = 'Debes seleccionar una especialidad.'
+    errorMsg.value = t('medicos.error_select_specialty')
     return
   }
 
@@ -219,13 +220,13 @@ async function handleSubmit() {
       especialidadId: form.especialidadId!,
     })
 
-    alert('Médico registrado exitosamente.')
+    alert(t('medicos.success_create'))
     router.push({ name: 'medicos' })
   } catch (e: any) {
     if (e.response && e.response.data && e.response.data.message) {
       errorMsg.value = e.response.data.message
     } else {
-      errorMsg.value = 'Error al crear el perfil del médico.'
+      errorMsg.value = t('medicos.error_create')
     }
   } finally {
     loading.value = false

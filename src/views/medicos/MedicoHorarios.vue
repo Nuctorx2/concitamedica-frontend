@@ -5,16 +5,18 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
           <div>
             <RouterLink :to="{ name: 'medicos' }" class="text-decoration-none text-muted small">
-              <i class="mdi mdi-arrow-left"></i> Volver al directorio
+              <i class="mdi mdi-arrow-left"></i> {{ $t('medicos.back_to_directory') }}
             </RouterLink>
-            <h3 class="fw-bold text-dark mt-1">Gestión de Horarios</h3>
+
+            <h3 class="fw-bold text-dark mt-1">{{ $t('schedules.title') }}</h3>
             <p class="text-muted mb-0" v-if="medicoNombre">
-              Configurando agenda para: <strong>{{ medicoNombre }}</strong>
+              {{ $t('schedules.subtitle') }} <strong>{{ medicoNombre }}</strong>
             </p>
           </div>
+
           <button class="btn btn-primary" @click="guardarCambios" :disabled="store.loading">
             <span v-if="store.loading" class="spinner-border spinner-border-sm me-2"></span>
-            Guardar Cambios
+            {{ store.loading ? $t('schedules.saving') : $t('schedules.btn_save') }}
           </button>
         </div>
 
@@ -35,11 +37,11 @@
               <table class="table align-middle mb-0">
                 <thead class="bg-light">
                   <tr>
-                    <th class="ps-4 py-3">Día</th>
-                    <th class="text-center">Estado</th>
-                    <th>Hora Inicio</th>
-                    <th>Hora Fin</th>
-                    <th class="pe-4 text-end">Acciones</th>
+                    <th class="ps-4 py-3">{{ $t('schedules.table_day') }}</th>
+                    <th class="text-center">{{ $t('schedules.table_status') }}</th>
+                    <th>{{ $t('schedules.table_start') }}</th>
+                    <th>{{ $t('schedules.table_end') }}</th>
+                    <th class="pe-4 text-end">{{ $t('schedules.table_actions') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -49,7 +51,7 @@
                     :class="{ 'bg-light-subtle': !dia.activo }"
                   >
                     <td class="ps-4 fw-bold text-secondary">
-                      {{ dia.label }}
+                      {{ $t('schedules.days.' + dia.value) }}
                     </td>
 
                     <td class="text-center">
@@ -79,10 +81,10 @@
                       <button
                         class="btn btn-sm btn-link text-decoration-none text-muted"
                         @click="copiarAlSiguiente(index)"
-                        title="Copiar horario al día siguiente"
+                        :title="$t('schedules.copy_next')"
                         v-if="index < 6 && dia.activo"
                       >
-                        <i class="mdi mdi-content-copy"></i> Copiar al sgte.
+                        <i class="mdi mdi-content-copy"></i> {{ $t('schedules.copy_next') }}
                       </button>
                     </td>
                   </tr>
@@ -90,10 +92,11 @@
               </table>
             </div>
           </div>
+
           <div class="card-footer bg-white p-3 text-center">
             <small class="text-muted">
               <i class="mdi mdi-information-outline"></i>
-              Los días desmarcados se guardarán como "No laborables".
+              {{ $t('schedules.footer_note') }}
             </small>
           </div>
         </div>
@@ -106,11 +109,13 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHorariosStore } from '@/store/horarios'
-import { useMedicosStore } from '@/store/medicos' // Para sacar el nombre del médico
+import { useMedicosStore } from '@/store/medicos'
+import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
 const store = useHorariosStore()
 const medicosStore = useMedicosStore()
+const { t } = useI18n()
 
 const medicoId = Number(route.params.id)
 const medicoNombre = ref('')
@@ -118,57 +123,47 @@ const cargandoInicial = ref(true)
 const errorMsg = ref('')
 const successMsg = ref('')
 
-// Estructura local para manipular el formulario
 interface DiaForm {
-  label: string
-  value: string // "LUNES", "MARTES"...
+  value: string
   activo: boolean
   inicio: string
   fin: string
 }
 
-// Inicializamos la semana vacía
 const diasBase = [
-  { label: 'Lunes', value: 'LUNES' },
-  { label: 'Martes', value: 'MARTES' },
-  { label: 'Miércoles', value: 'MIERCOLES' },
-  { label: 'Jueves', value: 'JUEVES' },
-  { label: 'Viernes', value: 'VIERNES' },
-  { label: 'Sábado', value: 'SABADO' },
-  { label: 'Domingo', value: 'DOMINGO' },
+  { value: 'LUNES' },
+  { value: 'MARTES' },
+  { value: 'MIERCOLES' },
+  { value: 'JUEVES' },
+  { value: 'VIERNES' },
+  { value: 'SABADO' },
+  { value: 'DOMINGO' },
 ]
 
 const agendaSemanal = reactive<DiaForm[]>([])
 
 onMounted(async () => {
   try {
-    // 1. Obtener nombre del médico (si ya está en store o fetch)
     if (!medicosStore.medicos.length) await medicosStore.fetchMedicos()
     const medico = medicosStore.medicos.find((m) => m.id === medicoId)
     medicoNombre.value = medico ? `${medico.nombre} ${medico.apellido}` : 'Médico'
 
-    // 2. Cargar horarios existentes
     await store.fetchHorarios(medicoId)
 
-    // 3. Mapear respuesta del backend a nuestra estructura local
     inicializarFormulario()
   } catch (e) {
-    errorMsg.value = 'Error al cargar la información.'
+    errorMsg.value = t('schedules.error_load')
   } finally {
     cargandoInicial.value = false
   }
 })
 
 function inicializarFormulario() {
-  // Recorremos los 7 días base y buscamos si el médico ya tiene horario ese día
   diasBase.forEach((diaBase) => {
     const horarioExistente = store.horarios.find((h) => h.diaSemana === diaBase.value)
-
     agendaSemanal.push({
-      label: diaBase.label,
       value: diaBase.value,
-      activo: !!horarioExistente, // Si existe, está activo
-      // Si existe usamos su hora, si no, ponemos default 08:00 - 17:00
+      activo: !!horarioExistente,
       inicio: horarioExistente ? recortarSegundos(horarioExistente.horaInicio) : '08:00',
       fin: horarioExistente ? recortarSegundos(horarioExistente.horaFin) : '17:00',
     })
@@ -183,7 +178,6 @@ function recortarSegundos(hora: string) {
 function copiarAlSiguiente(idx: number) {
   const actual = agendaSemanal[idx]
   const siguiente = agendaSemanal[idx + 1]
-
   siguiente.activo = true
   siguiente.inicio = actual.inicio
   siguiente.fin = actual.fin
@@ -193,32 +187,27 @@ async function guardarCambios() {
   errorMsg.value = ''
   successMsg.value = ''
 
-  // 1. Convertir formulario a DTO
-  // Solo enviamos los días marcados como "activos"
   const payload = agendaSemanal
     .filter((d) => d.activo)
     .map((d) => ({
       diaSemana: d.value,
-      horaInicio: `${d.inicio}:00`, // Agregamos segundos para Java LocalTime
+      horaInicio: `${d.inicio}:00`,
       horaFin: `${d.fin}:00`,
     }))
 
-  // 2. Validaciones básicas frontend
   for (const h of payload) {
     if (h.horaInicio >= h.horaFin) {
-      errorMsg.value = 'Error: La hora de inicio debe ser menor a la hora fin.'
+      errorMsg.value = t('schedules.error_time')
       return
     }
   }
 
-  // 3. Enviar
   try {
     await store.guardarHorarios(medicoId, payload)
-    successMsg.value = 'Horarios actualizados correctamente.'
+    successMsg.value = t('schedules.success_save')
     setTimeout(() => (successMsg.value = ''), 3000)
   } catch (e: any) {
-    // El store ya captura el mensaje del backend, lo mostramos aquí
-    errorMsg.value = store.error || 'Error al guardar.'
+    errorMsg.value = store.error || t('schedules.error_save')
   }
 }
 </script>

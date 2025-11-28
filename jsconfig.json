@@ -3,7 +3,9 @@
     "baseUrl": ".", // ← FALTA ESTO (OBLIGATORIO)
     "paths": {
       "@/*": ["src/*"] // ← quita el "./" para evitar ambigüedades
-    }
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "dist"]
 }

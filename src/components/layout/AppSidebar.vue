@@ -2,6 +2,10 @@
   <aside class="sidebar p-3 d-flex flex-column">
     <h2 class="app-title">ConCitaMedica</h2>
 
+    <div class="mb-3 px-2">
+      <LanguageSwitcher class="w-100" />
+    </div>
+
     <nav class="mt-4 flex-grow-1">
       <RouterLink
         v-for="item in filteredNavigation"
@@ -10,11 +14,11 @@
         class="nav-item"
         :class="{ 'active-nav-item': isLinkActive(item.to) }"
       >
-        <i :class="`mdi ${item.icon} me-2`"></i> {{ item.label }}
+        <i :class="`mdi ${item.icon} me-2`"></i> {{ $t(item.label) }}
       </RouterLink>
     </nav>
 
-    <button class="logout-btn mt-auto" @click="logout">Cerrar sesión</button>
+    <button class="logout-btn mt-auto" @click="logout">{{ $t('menu.logout') }}</button>
   </aside>
 </template>
 
@@ -23,6 +27,7 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import { useRoute, RouterLink } from 'vue-router'
 import { navigation } from '@/config/navigation'
+import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 
 const auth = useAuthStore()
 const route = useRoute()

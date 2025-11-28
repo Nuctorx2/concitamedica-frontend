@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12 col-lg-8">
-        <h3 class="fw-bold mb-4 text-dark">Mi Perfil</h3>
+        <h3 class="fw-bold mb-4 text-dark">{{ $t('profile.title') }}</h3>
 
         <div class="card border-0 shadow-sm rounded-4 mb-4">
           <div class="card-body p-4">
@@ -22,16 +22,27 @@
             <form @submit.prevent="handleUpdate">
               <div class="row g-3">
                 <div class="col-md-6">
-                  <BaseInput id="nombre" label="Nombre" v-model="form.nombre" required />
+                  <BaseInput
+                    id="nombre"
+                    :label="$t('profile.form.name')"
+                    v-model="form.nombre"
+                    required
+                  />
                 </div>
+
                 <div class="col-md-6">
-                  <BaseInput id="apellido" label="Apellido" v-model="form.apellido" required />
+                  <BaseInput
+                    id="apellido"
+                    :label="$t('profile.form.surname')"
+                    v-model="form.apellido"
+                    required
+                  />
                 </div>
 
                 <div class="col-md-6">
                   <BaseInput
                     id="documento"
-                    label="Documento"
+                    :label="$t('profile.form.document')"
                     v-model="form.documento"
                     icon="mdi-card-account-details"
                     required
@@ -41,7 +52,7 @@
                 <div class="col-md-6">
                   <BaseInput
                     id="fechaNacimiento"
-                    label="Fecha de Nacimiento"
+                    :label="$t('profile.form.birthdate')"
                     v-model="form.fechaNacimiento"
                     type="date"
                     required
@@ -49,18 +60,20 @@
                 </div>
 
                 <div class="col-md-6">
-                  <label class="form-label fw-bold text-secondary">Género</label>
+                  <label class="form-label fw-bold text-secondary">
+                    {{ $t('profile.form.gender') }}
+                  </label>
                   <select class="form-select py-2" v-model="form.genero" required>
-                    <option value="MASCULINO">Masculino</option>
-                    <option value="FEMENINO">Femenino</option>
-                    <option value="OTRO">Otro</option>
+                    <option value="MASCULINO">{{ $t('common.gender_MASCULINO') }}</option>
+                    <option value="FEMENINO">{{ $t('common.gender_FEMENINO') }}</option>
+                    <option value="OTRO">{{ $t('common.gender_OTRO') }}</option>
                   </select>
                 </div>
 
                 <div class="col-md-6">
                   <BaseInput
                     id="telefono"
-                    label="Teléfono"
+                    :label="$t('profile.form.phone')"
                     v-model="form.telefono"
                     icon="mdi-phone"
                     required
@@ -70,7 +83,7 @@
                 <div class="col-12">
                   <BaseInput
                     id="direccion"
-                    label="Dirección"
+                    :label="$t('profile.form.address')"
                     v-model="form.direccion"
                     icon="mdi-map-marker"
                     required
@@ -81,7 +94,11 @@
               <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
                 <button type="button" class="btn btn-outline-danger" @click="togglePasswordForm">
                   <i class="mdi" :class="showPasswordForm ? 'mdi-close' : 'mdi-lock-reset'"></i>
-                  {{ showPasswordForm ? 'Cancelar Cambio' : 'Cambiar Contraseña' }}
+                  {{
+                    showPasswordForm
+                      ? $t('profile.security.btn_cancel')
+                      : $t('profile.security.btn_change')
+                  }}
                 </button>
 
                 <BaseButton
@@ -90,7 +107,7 @@
                   :loading="saving"
                   style="max-width: 200px"
                 >
-                  Actualizar Datos
+                  {{ $t('profile.buttons.update') }}
                 </BaseButton>
               </div>
 
@@ -99,35 +116,41 @@
                 class="mt-4 p-4 bg-light rounded-3 border border-danger-subtle"
               >
                 <h6 class="text-danger fw-bold mb-3">
-                  <i class="mdi mdi-shield-key me-1"></i> Seguridad
+                  <i class="mdi mdi-shield-key me-1"></i> {{ $t('profile.security.title') }}
                 </h6>
 
                 <div class="row g-3">
                   <div class="col-md-4">
-                    <label class="form-label small fw-bold">Contraseña Actual</label>
+                    <label class="form-label small fw-bold">
+                      {{ $t('profile.security.current_label') }}
+                    </label>
                     <input
                       type="password"
                       class="form-control"
                       v-model="passForm.actual"
-                      placeholder="••••••"
+                      :placeholder="$t('profile.security.current_placeholder')"
                     />
                   </div>
                   <div class="col-md-4">
-                    <label class="form-label small fw-bold">Nueva Contraseña</label>
+                    <label class="form-label small fw-bold">
+                      {{ $t('profile.security.new_label') }}
+                    </label>
                     <input
                       type="password"
                       class="form-control"
                       v-model="passForm.nueva"
-                      placeholder="Mínimo 5 caracteres"
+                      :placeholder="$t('profile.security.new_placeholder')"
                     />
                   </div>
                   <div class="col-md-4">
-                    <label class="form-label small fw-bold">Confirmar Nueva</label>
+                    <label class="form-label small fw-bold">
+                      {{ $t('profile.security.confirm_label') }}
+                    </label>
                     <input
                       type="password"
                       class="form-control"
                       v-model="passForm.confirmacion"
-                      placeholder="Repite la nueva"
+                      :placeholder="$t('profile.security.confirm_placeholder')"
                     />
                   </div>
 
@@ -139,7 +162,7 @@
                       @click="handleChangePassword"
                     >
                       <span v-if="saving" class="spinner-border spinner-border-sm me-2"></span>
-                      Confirmar Cambio de Clave
+                      {{ $t('profile.security.btn_confirm') }}
                     </button>
                   </div>
                 </div>
@@ -158,7 +181,9 @@ import { useAuthStore } from '@/store/auth'
 import authService from '@/services/authService'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { useI18n } from 'vue-i18n' // Importar hook
 
+const { t } = useI18n() // Obtener función t
 const showPasswordForm = ref(false)
 const passForm = reactive({
   actual: '',
@@ -187,18 +212,20 @@ const initials = computed(() => {
 
 const userRole = computed(() => {
   const r = authStore.user?.rol || ''
-  return r.replace('ROLE_', '')
+  // 1. Limpiamos 'ROLE_' -> 'ADMIN'
+  // 2. Convertimos a minúsculas -> 'admin'
+  // 3. Traducimos usando la clave 'roles.admin' del JSON
+  const cleanRole = r.replace('ROLE_', '').toLowerCase()
+  return t(`roles.${cleanRole}`)
 })
 
 // Cargar datos frescos al montar
 onMounted(async () => {
   try {
-    // Pedimos los datos frescos al backend por si algo cambió
     const user = await authService.getMe()
 
-    // Llenamos el formulario
     form.nombre = user.nombre
-    form.apellido = user.apellido || '' // Manejo de posibles nulls antiguos
+    form.apellido = user.apellido || ''
     form.documento = user.documento || ''
     form.telefono = user.telefono || ''
     form.direccion = user.direccion || ''
@@ -213,31 +240,29 @@ async function handleUpdate() {
   saving.value = true
   try {
     await authStore.actualizarPerfil(form)
-    alert('Perfil actualizado correctamente')
+    alert(t('profile.messages.success_update'))
   } catch (e) {
-    alert('Error al actualizar el perfil')
+    alert(t('profile.messages.error_update'))
   } finally {
     saving.value = false
   }
 }
 
-function changePassword() {
-  alert('Funcionalidad de cambio de contraseña pendiente de implementar.')
-}
-
 async function handleChangePassword() {
   if (passForm.nueva !== passForm.confirmacion) {
-    alert('Las nuevas contraseñas no coinciden.')
+    alert(t('profile.messages.error_mismatch'))
     return
   }
 
   saving.value = true
   try {
     await authStore.cambiarPassword(passForm.actual, passForm.nueva)
-    alert('Contraseña actualizada correctamente. Por favor inicia sesión de nuevo.')
-    authStore.logout() // Buena práctica: cerrar sesión tras cambio de clave
+    alert(t('profile.messages.success_password'))
+    authStore.logout()
   } catch (e: any) {
-    const msg = e.response?.data?.message || 'Error al cambiar la contraseña'
+    // Si el error tiene un mensaje específico del backend, lo mostramos,
+    // sino mostramos el genérico traducido
+    const msg = e.response?.data?.message || t('profile.messages.error_password')
     alert(msg)
   } finally {
     saving.value = false

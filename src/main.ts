@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import i18n from './i18n'
 import App from './App.vue'
 import router from './router'
-import { useAuthStore } from '@/store/auth' // Importar store
+import { useAuthStore } from '@/store/auth'
 
 // Importa tus estilos aquí (asegúrate de que el archivo exista)
 // import '@/assets/scss/main.scss'
@@ -15,6 +16,7 @@ const app = createApp(App)
 const pinia = createPinia()
 app.use(pinia)
 app.use(router)
+app.use(i18n)
 
 // Recuperar sesión antes de montar
 const authStore = useAuthStore()

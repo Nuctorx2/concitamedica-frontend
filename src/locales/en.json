@@ -1,0 +1,386 @@
+{
+  "app": {
+    "title": "ConCitaMedica",
+    "welcome_user": "Hello, {name}!",
+    "welcome_intro": "Welcome to the control panel of",
+    "current_role": "Your current role is:"
+  },
+
+  "roles": {
+    "admin": "Administrator",
+    "doctor": "Doctor",
+    "patient": "Patient",
+    "guest": "Guest"
+  },
+
+  "menu": {
+    "dashboard": "Dashboard",
+    "profile": "My Profile",
+    "patients": "Patients",
+    "doctors": "Doctors",
+    "appointments": "My Appointments",
+    "my_agenda": "My Schedule",
+    "appointments_management": "Manage Appointments",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login_title": "Log In",
+    "login_subtitle": "Appointment Management Portal",
+    "email": "Email",
+    "email_placeholder": "example@mail.com",
+    "password": "Password",
+    "password_placeholder": "••••••••",
+    "forgot_password": "Forgot your password?",
+    "login_btn": "Sign In",
+    "no_account": "Don't have an account?",
+    "register_link": "Register here",
+
+    "register_title_patient": "Create Patient Account",
+    "register_subtitle": "Join ConCitaMedica to manage your health",
+    "personal_info": "Personal Information",
+    "contact_info": "Contact Information",
+    "account_security": "Account Security",
+    "names": "First Names",
+    "surnames": "Last Names",
+    "document_id": "Identification Document",
+    "birthdate": "Date of Birth",
+    "gender": "Gender",
+    "mobile_phone": "Mobile Phone",
+    "address": "Home Address",
+    "confirm_password": "Confirm Password",
+    "create_account_btn": "CREATE MY ACCOUNT",
+    "already_have_account": "Already have an account?",
+    "login_here": "Log in here",
+
+    "placeholder_names": "E.g. Ana Maria",
+    "placeholder_surnames": "E.g. Pérez López",
+    "placeholder_address": "E.g. Street 123 # 45-67",
+    "help_names": "Only letters and spaces. Minimum 2 characters.",
+    "help_document": "Between 8 and 10 numeric digits.",
+    "help_phone": "Numbers only, between 7 and 15 digits.",
+    "help_password_min": "Minimum 5 characters."
+  },
+
+  "dashboard": {
+    "admin_citas_title": "Global Appointment Management",
+    "admin_citas_confirm_cancel": "Do you confirm the cancellation of this appointment? The time slot will become available.",
+    "btn_cancel_appointment": "Cancel Appointment",
+
+    "cards": {
+      "patients_title": "Patients",
+      "patients_desc": "Manage the patient directory and their records.",
+      "doctors_title": "Doctors",
+      "doctors_desc": "Manage the medical staff.",
+      "admin_citas_title": "Appointments Control",
+      "admin_citas_desc": "Oversee and cancel global appointments.",
+      "patient_citas_title": "My Appointments",
+      "patient_citas_desc": "Schedule or review your consultations.",
+      "doctor_agenda_title": "My Agenda",
+      "doctor_agenda_desc": "Review your consultations for the day.",
+      "profile_title": "My Profile",
+      "profile_desc": "Update your personal information."
+    },
+    "buttons": {
+      "manage": "Manage",
+      "directory": "Directory",
+      "view_my_appointments": "View My Appointments",
+      "view_agenda": "View Agenda",
+      "go_profile": "Go to Profile"
+    }
+  },
+
+  "common": {
+    "back": "Back",
+    "select_placeholder": "Select...",
+    "gender_male": "Male",
+    "gender_female": "Female",
+    "gender_other": "Other",
+    "gender_MASCULINO": "Male",
+    "gender_FEMENINO": "Female",
+    "gender_OTRO": "Other",
+    "date_time": "Date and Time",
+    "patient": "Patient",
+    "doctor": "Doctor",
+    "specialty": "Specialty",
+    "status": "Status",
+    "id": "ID",
+    "btn_report": "Report",
+    "actions": "Actions",
+    "cancel_btn": "Cancel",
+    "save_btn": "Save"
+  },
+
+  "appointments": {
+    "wizard_title": "Schedule a New Appointment",
+    "wizard_subtitle": "Follow the steps to book your consultation.",
+    "step_1": "Specialty",
+    "step_2": "Doctor",
+    "step_3": "Date and Time",
+
+    "select_specialty": "Select a Specialty",
+    "select_doctor": "Select a Doctor ({specialty})",
+    "no_doctors": "There are no available doctors for this specialty at the moment.",
+    "availability_title": "Availability of {doctor}",
+    "select_date": "Select the Date",
+    "available_slots": "Available Time Slots:",
+    "loading_slots": "Searching for available slots...",
+    "no_slots": "There are no available time slots for this date. Try another day.",
+
+    "summary_title": "Appointment Summary",
+    "summary_specialty": "Specialty:",
+    "summary_doctor": "Doctor:",
+    "summary_date": "Date:",
+    "summary_time": "Time:",
+
+    "cancel_btn": "Cancel",
+    "confirm_btn": "Confirm Appointment",
+    "confirming_btn": "Confirming...",
+
+    "success_msg": "Appointment successfully scheduled!",
+    "error_conflict": "The selected time slot is no longer available or conflicts with your schedule.",
+    "error_data": "There was an error with the submitted data. Please reload the page.",
+    "error_generic": "An unexpected error occurred. Please try again later.",
+
+    "list_title": "My Medical Appointments",
+    "list_subtitle": "Check your upcoming visits and history.",
+    "btn_schedule_new": "Schedule Appointment",
+    "loading_agenda": "Loading your schedule...",
+    "empty_title": "You have no scheduled appointments",
+    "empty_desc": "Book your first medical consultation right now.",
+    "btn_start": "Start",
+    "view_details": "View details",
+
+    "agenda_title": "My Daily Schedule",
+    "agenda_subtitle": "Manage your consultations for the day.",
+    "no_appointments_title": "No appointments scheduled",
+    "no_appointments_desc": "Your schedule is free for this day.",
+    "minutes_abbr": "min",
+    "until": "Until",
+    "view_clinical_history": "View Clinical History"
+  },
+
+  "status": {
+    "AGENDADA": "Scheduled",
+    "REALIZADA": "Completed",
+    "CANCELADA_PACIENTE": "Cancelled by you",
+    "CANCELADA_ADMIN": "Cancelled by the clinic"
+  },
+
+  "medicos": {
+    "create_title": "Register New Doctor",
+    "create_subtitle": "Professional Information",
+    "personal_data": "Personal Data",
+    "institutional_email": "Institutional Email",
+    "temp_password": "Temporary Password",
+    "specialty_required": "Specialty",
+    "select_specialty": "Select a specialty...",
+    "btn_hire": "Hire Doctor",
+    "back_to_directory": "Back to directory",
+
+    "error_load_specialties": "Specialties could not be loaded.",
+    "error_select_specialty": "You must select a specialty.",
+    "error_create": "Error creating the doctor's profile.",
+    "success_create": "Doctor successfully registered.",
+
+    "edit_title": "Edit Doctor",
+    "email_readonly": "Email (Read-only)",
+    "success_update": "Data updated successfully.",
+    "error_update": "Error saving changes.",
+    "error_load": "Error loading data."
+  },
+
+  "schedules": {
+    "title": "Schedule Management",
+    "subtitle": "Configuring agenda for:",
+    "btn_save": "Save Changes",
+    "saving": "Saving...",
+
+    "table_day": "Day",
+    "table_status": "Status",
+    "table_start": "Start Time",
+    "table_end": "End Time",
+    "table_actions": "Actions",
+
+    "copy_next": "Copy to next",
+    "footer_note": "Unchecked days will be saved as 'Non-working'.",
+
+    "error_load": "Error loading information.",
+    "error_save": "Error saving schedules.",
+    "error_time": "Error: Start time must be earlier than end time.",
+    "success_save": "Schedules updated successfully.",
+
+    "days": {
+      "LUNES": "Monday",
+      "MARTES": "Tuesday",
+      "MIERCOLES": "Wednesday",
+      "JUEVES": "Thursday",
+      "VIERNES": "Friday",
+      "SABADO": "Saturday",
+      "DOMINGO": "Sunday"
+    }
+  },
+
+  "medicosList": {
+    "header": {
+      "title": "Medical Directory",
+      "subtitle": "Management of specialists and professionals.",
+      "btnReport": "Report",
+      "btnReportTooltip": "Download PDF",
+      "btnNew": "New Doctor"
+    },
+    "filters": {
+      "searchPlaceholder": "Search by Name, ID, or Document...",
+      "allSpecialties": "All Specialties",
+      "showInactive": "Show Inactive",
+      "results": "results"
+    },
+    "state": {
+      "loading": "Loading specialists..."
+    },
+    "table": {
+      "thead": {
+        "doctor": "Doctor",
+        "specialty": "Specialty",
+        "contact": "Contact",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "row": {
+        "id": "ID",
+        "doc": "Doc",
+        "statusActive": "Active",
+        "statusInactive": "Inactive"
+      },
+      "empty": "No doctors found matching the filters."
+    },
+    "actions": {
+      "tooltipEdit": "Edit",
+      "tooltipSchedule": "Manage Schedules",
+      "tooltipReactivate": "Reactivate Doctor",
+      "tooltipDelete": "Deactivate"
+    },
+    "messages": {
+      "confirmDelete": "Are you sure you want to deactivate this doctor? Their future appointments will be canceled.",
+      "confirmReactivate": "Do you want to reactivate this doctor? They will be able to log in and receive appointments again.",
+      "errorReport": "Error generating PDF report"
+    }
+  },
+
+  "pacientes": {
+    "create": {
+      "title": "Register New Patient",
+      "back_to_list": "Back to list",
+      "form": {
+        "name": "Name",
+        "name_placeholder": "E.g. John",
+        "surname": "Surname",
+        "surname_placeholder": "E.g. Perez",
+        "document": "Document",
+        "birthdate": "Birthdate",
+        "gender": "Gender",
+        "select_placeholder": "Select...",
+        "phone": "Phone",
+        "email": "Email",
+        "address": "Address"
+      },
+      "validation": {
+        "text_chars_help": "Only letters, spaces, accents, hyphens or apostrophes. Between 2 and 40 characters.",
+        "doc_help": "Between 8 and 10 numeric digits (no dots or spaces)",
+        "phone_help": "Between 7 and 15 numeric digits"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "save": "Save Patient"
+      }
+    },
+
+    "edit": {
+      "title": "Edit Patient",
+      "back": "Back",
+      "validation": {
+        "phone_help": "Between 7 and 15 digits",
+        "email_help": "Valid format required: user@domain.com",
+        "address_help": "Must be between 5 and 100 characters."
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "save_changes": "Save Changes"
+      },
+      "messages": {
+        "success_update": "Patient updated successfully",
+        "error_update": "Error updating patient"
+      }
+    },
+    "list": {
+      "header": {
+        "title": "Patients",
+        "subtitle": "Patient directory management.",
+        "btnReport": "Report",
+        "btnReportTooltip": "Download PDF",
+        "btnNew": "New Patient"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by Name, Document or Email...",
+        "showInactive": "Show Inactive",
+        "results": "patients found"
+      },
+      "table": {
+        "thead": {
+          "patient": "Patient",
+          "document": "Document",
+          "contact": "Contact",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "row": {
+          "statusActive": "Active",
+          "statusInactive": "Inactive"
+        }
+      },
+      "actions": {
+        "tooltipEdit": "Edit",
+        "tooltipReactivate": "Reactivate Patient",
+        "tooltipDelete": "Deactivate Patient"
+      },
+      "messages": {
+        "confirmDelete": "Deactivate patient? Their future appointments will be canceled.",
+        "confirmReactivate": "Reactivate patient? They will be able to log in again.",
+        "errorReport": "Error generating PDF report"
+      }
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "form": {
+      "name": "Name",
+      "surname": "Surname",
+      "document": "Document",
+      "birthdate": "Birthdate",
+      "gender": "Gender",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "security": {
+      "title": "Security",
+      "btn_change": "Change Password",
+      "btn_cancel": "Cancel Change",
+      "current_label": "Current Password",
+      "current_placeholder": "••••••",
+      "new_label": "New Password",
+      "new_placeholder": "Minimum 5 characters",
+      "confirm_label": "Confirm New",
+      "confirm_placeholder": "Repeat new password",
+      "btn_confirm": "Confirm Password Change"
+    },
+    "buttons": {
+      "update": "Update Information"
+    },
+    "messages": {
+      "success_update": "Profile updated successfully",
+      "error_update": "Error updating profile",
+      "error_mismatch": "The new passwords do not match.",
+      "success_password": "Password updated successfully. Please log in again.",
+      "error_password": "Error changing password"
+    }
+  }
+}

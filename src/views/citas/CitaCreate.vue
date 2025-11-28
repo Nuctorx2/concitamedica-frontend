@@ -4,11 +4,11 @@
       <div class="col-12 col-lg-10">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <div>
-            <h3 class="fw-bold text-dark">Agendar Nueva Cita</h3>
-            <p class="text-muted mb-0">Sigue los pasos para reservar tu consulta.</p>
+            <h3 class="fw-bold text-dark">{{ $t('appointments.wizard_title') }}</h3>
+            <p class="text-muted mb-0">{{ $t('appointments.wizard_subtitle') }}</p>
           </div>
           <RouterLink :to="{ name: 'citas' }" class="btn btn-light text-muted">
-            <i class="mdi mdi-close"></i> Cancelar
+            <i class="mdi mdi-close"></i> {{ $t('appointments.cancel_btn') }}
           </RouterLink>
         </div>
 
@@ -19,17 +19,17 @@
 
               <div class="step-item" :class="{ active: step >= 1 }">
                 <div class="step-circle">1</div>
-                <span class="step-label">Especialidad</span>
+                <span class="step-label">{{ $t('appointments.step_1') }}</span>
               </div>
 
               <div class="step-item" :class="{ active: step >= 2 }">
                 <div class="step-circle">2</div>
-                <span class="step-label">Médico</span>
+                <span class="step-label">{{ $t('appointments.step_2') }}</span>
               </div>
 
               <div class="step-item" :class="{ active: step >= 3 }">
                 <div class="step-circle">3</div>
-                <span class="step-label">Fecha y Hora</span>
+                <span class="step-label">{{ $t('appointments.step_3') }}</span>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@
         <div class="row g-4">
           <div class="col-md-8">
             <div v-if="step === 1" class="fade-in">
-              <h5 class="fw-bold mb-3 text-primary">Selecciona una Especialidad</h5>
+              <h5 class="fw-bold mb-3 text-primary">{{ $t('appointments.select_specialty') }}</h5>
               <div v-if="loading.specialties" class="text-center py-4">
                 <div class="spinner-border text-primary"></div>
               </div>
@@ -62,7 +62,7 @@
                   <i class="mdi mdi-arrow-left"></i>
                 </button>
                 <h5 class="fw-bold mb-0 text-primary">
-                  Selecciona un Médico ({{ form.especialidadName }})
+                  {{ $t('appointments.select_doctor', { specialty: form.especialidadName }) }}
                 </h5>
               </div>
 
@@ -71,7 +71,7 @@
               </div>
 
               <div v-else-if="catalogos.medicos.length === 0" class="alert alert-warning">
-                No hay médicos disponibles para esta especialidad actualmente.
+                {{ $t('appointments.no_doctors', { specialty: form.especialidadName }) }}
               </div>
 
               <div v-else class="row g-3">
@@ -97,11 +97,13 @@
                 <button class="btn btn-sm btn-light me-2 rounded-circle" @click="step = 2">
                   <i class="mdi mdi-arrow-left"></i>
                 </button>
-                <h5 class="fw-bold mb-0 text-primary">Disponibilidad del {{ form.medicoName }}</h5>
+                <h5 class="fw-bold mb-0 text-primary">
+                  {{ $t('appointments.availability_title', { doctor: form.medicoName }) }}
+                </h5>
               </div>
 
               <div class="card border-0 shadow-sm p-3 mb-3">
-                <label class="form-label fw-bold">Selecciona la Fecha</label>
+                <label class="form-label fw-bold">{{ $t('appointments.select_date') }}</label>
                 <input
                   type="date"
                   class="form-control"
@@ -112,16 +114,16 @@
               </div>
 
               <div v-if="form.fecha">
-                <h6 class="fw-bold mb-3">Horarios Disponibles:</h6>
+                <h6 class="fw-bold mb-3">{{ $t('appointments.available_slots') }}</h6>
 
                 <div v-if="loading.slots" class="text-center py-3">
                   <div class="spinner-border spinner-border-sm text-secondary"></div>
-                  Buscando huecos...
+                  {{ $t('appointments.loading_slots') }}
                 </div>
 
                 <div v-else-if="catalogos.slots.length === 0" class="alert alert-info small">
-                  <i class="mdi mdi-information-outline"></i> No hay horarios disponibles para esta
-                  fecha. Intenta otro día.
+                  <i class="mdi mdi-information-outline"></i>
+                  {{ $t('appointments.no_slots') }}
                 </div>
 
                 <div v-else class="d-flex flex-wrap gap-2">
@@ -142,23 +144,23 @@
           <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4 sticky-top" style="top: 20px; z-index: 1">
               <div class="card-body p-4">
-                <h5 class="fw-bold mb-3">Resumen de la Cita</h5>
+                <h5 class="fw-bold mb-3">{{ $t('appointments.summary_title') }}</h5>
 
                 <ul class="list-unstyled mb-4">
                   <li class="mb-2 d-flex justify-content-between">
-                    <span class="text-muted">Especialidad:</span>
+                    <span class="text-muted">{{ $t('appointments.summary_specialty') }}</span>
                     <span class="fw-bold text-end">{{ form.especialidadName || '-' }}</span>
                   </li>
                   <li class="mb-2 d-flex justify-content-between">
-                    <span class="text-muted">Médico:</span>
+                    <span class="text-muted">{{ $t('appointments.summary_doctor') }}</span>
                     <span class="fw-bold text-end">{{ form.medicoName || '-' }}</span>
                   </li>
                   <li class="mb-2 d-flex justify-content-between">
-                    <span class="text-muted">Fecha:</span>
+                    <span class="text-muted">{{ $t('appointments.summary_date') }}</span>
                     <span class="fw-bold text-end">{{ form.fecha || '-' }}</span>
                   </li>
                   <li class="mb-2 d-flex justify-content-between">
-                    <span class="text-muted">Hora:</span>
+                    <span class="text-muted">{{ $t('appointments.summary_time') }}</span>
                     <span class="fw-bold text-end text-primary">{{
                       form.hora ? formatTime(form.hora) : '-'
                     }}</span>
@@ -178,7 +180,11 @@
                     v-if="loading.submitting"
                     class="spinner-border spinner-border-sm me-2"
                   ></span>
-                  {{ loading.submitting ? 'Confirmando...' : 'Confirmar Cita' }}
+                  {{
+                    loading.submitting
+                      ? $t('appointments.confirming_btn')
+                      : $t('appointments.confirm_btn')
+                  }}
                 </button>
               </div>
             </div>
@@ -190,20 +196,21 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCitasStore } from '@/store/citas'
 import especialidadesService, { type Especialidad } from '@/services/especialidadesService'
-import medicosService, { type MedicoDTO } from '@/services/medicosService'
+import medicosService, { type Medico } from '@/services/medicosService'
 import citasService, { type DisponibilidadSlot } from '@/services/citasService'
 
+const { t } = useI18n()
 const router = useRouter()
 const citasStore = useCitasStore()
 
-// --- Estado ---
 const step = ref(1)
 const errorGeneral = ref('')
-const minDate = new Date().toISOString().split('T')[0] // Fecha mínima: Hoy
+const minDate = new Date().toISOString().split('T')[0]
 
 const loading = reactive({
   specialties: false,
@@ -214,7 +221,7 @@ const loading = reactive({
 
 const catalogos = reactive({
   especialidades: [] as Especialidad[],
-  medicos: [] as MedicoDTO[],
+  medicos: [] as Medico[],
   slots: [] as DisponibilidadSlot[],
 })
 
@@ -227,17 +234,13 @@ const form = reactive({
   hora: '',
 })
 
-// --- Computed ---
 const canSubmit = computed(() => {
   return form.medicoId && form.fecha && form.hora
 })
 
-// --- Ciclo de Vida ---
 onMounted(async () => {
   await cargarEspecialidades()
 })
-
-// --- Métodos de Lógica ---
 
 async function cargarEspecialidades() {
   loading.specialties = true
@@ -253,7 +256,6 @@ async function cargarEspecialidades() {
 async function selectEspecialidad(esp: Especialidad) {
   form.especialidadId = esp.id
   form.especialidadName = esp.nombre
-  // Resetear siguientes pasos
   form.medicoId = null
   form.medicoName = ''
   form.fecha = ''
@@ -262,7 +264,6 @@ async function selectEspecialidad(esp: Especialidad) {
 
   step.value = 2
 
-  // Cargar médicos
   loading.medicos = true
   try {
     catalogos.medicos = await medicosService.buscarPorEspecialidad(esp.id)
@@ -273,10 +274,9 @@ async function selectEspecialidad(esp: Especialidad) {
   }
 }
 
-function selectMedico(med: MedicoDTO) {
+function selectMedico(med: Medico) {
   form.medicoId = med.id
-  form.medicoName = med.nombre
-  // Resetear fecha y hora
+  form.medicoName = `${med.nombre} ${med.apellido}`
   form.fecha = ''
   form.hora = ''
   catalogos.slots = []
@@ -287,44 +287,32 @@ function selectMedico(med: MedicoDTO) {
 async function fetchSlots() {
   if (!form.medicoId || !form.fecha) return
 
-  form.hora = '' // Resetear hora seleccionada
+  form.hora = ''
   loading.slots = true
   try {
     catalogos.slots = await citasService.getDisponibilidad(form.medicoId, form.fecha)
   } catch (e) {
     console.error(e)
-    // No mostramos error global, solo se ve lista vacía
   } finally {
     loading.slots = false
   }
 }
 
 async function confirmarCita() {
-  // 1. Guard Clause: Programación defensiva
-  // Evita envíos si el formulario no está listo o si ya se está enviando (doble clic)
   if (!canSubmit.value || loading.submitting) return
 
-  // 2. Preparar UI
   loading.submitting = true
   errorGeneral.value = ''
 
   try {
-    // 3. Sanitización de Datos
-    // Aseguramos formato HH:mm:ss (Backend espera LocalTime)
-    // Si form.hora es "09:00", lo convertimos a "09:00:00"
     const horaLimpia = form.hora.length === 5 ? `${form.hora}:00` : form.hora
 
-    // Construimos formato ISO estricto: YYYY-MM-DDTHH:mm:ss
     const fechaHoraISO = `${form.fecha}T${horaLimpia}`
 
     console.log('📤 Enviando cita:', { medico: form.medicoId, fecha: fechaHoraISO })
 
-    // 4. Llamada al Store (API)
     await citasStore.agendarNuevaCita(form.medicoId!, fechaHoraISO)
 
-    // 5. Éxito
-    // Idealmente usaríamos un Toast/Notification aquí, pero el alert cumple por ahora.
-    // Usamos un pequeño timeout para dar feedback visual antes de cambiar de página.
     setTimeout(async () => {
       alert('¡Cita agendada con éxito!')
       await router.push({ name: 'citas' })
@@ -332,43 +320,29 @@ async function confirmarCita() {
   } catch (e: any) {
     console.error('❌ Error al agendar:', e)
 
-    // 6. Manejo de Errores Jerárquico
     const backendMessage = e.response?.data?.message
     const statusCode = e.response?.status
 
-    // Nivel 1: Mensaje de Negocio del Backend (El más valioso)
-    // Ej: "Ya tienes una cita de Medicina General..."
     if (backendMessage) {
       errorGeneral.value = backendMessage
-    }
-    // Nivel 2: Error de Conflicto Genérico (Si el backend no mandó mensaje)
-    else if (statusCode === 409) {
+    } else if (statusCode === 409) {
       errorGeneral.value =
         'El horario seleccionado ya no está disponible o existe un conflicto con tu agenda.'
-    }
-    // Nivel 3: Errores de Validación (Datos mal formados)
-    else if (statusCode === 400) {
+    } else if (statusCode === 400) {
       errorGeneral.value = 'Ocurrió un error con los datos enviados. Por favor recarga la página.'
-    }
-    // Nivel 4: Error de Servidor o Conexión
-    else {
+    } else {
       errorGeneral.value = 'Ocurrió un error inesperado. Por favor intenta nuevamente más tarde.'
     }
 
-    // 7. Reactividad ante Conflictos
-    // Si el error fue por disponibilidad (409), refrescamos los slots automáticamente
-    // para que el usuario vea qué horas quedan libres realmente.
     if (statusCode === 409) {
       await fetchSlots()
-      form.hora = '' // Desmarcamos la hora inválida
+      form.hora = ''
     }
   } finally {
-    // 8. Limpieza siempre, pase lo que pase
     loading.submitting = false
   }
 }
 
-// Helper para mostrar hora bonita (09:00:00 -> 09:00 AM)
 function formatTime(time: string) {
   if (!time) return ''
   const [h, m] = time.split(':')
@@ -385,7 +359,6 @@ function formatTime(time: string) {
 $primary: #006655;
 $neutral: #e8f6f4;
 
-// --- Estilos del Wizard (Pasos) ---
 .steps-container {
   padding: 0 20px;
 }
@@ -439,7 +412,6 @@ $neutral: #e8f6f4;
   font-size: 0.85rem;
 }
 
-// --- Tarjetas de Selección ---
 .selection-card {
   background: white;
   border: 1px solid #dee2e6;
@@ -475,7 +447,6 @@ $neutral: #e8f6f4;
   font-size: 1.2rem;
 }
 
-// --- Botones de Hora ---
 .btn-outline-time {
   border: 1px solid #dee2e6;
   color: #495057;

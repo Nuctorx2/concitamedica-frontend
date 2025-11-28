@@ -1,16 +1,19 @@
 <template>
   <div class="login-container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="position-absolute top-0 end-0 m-4">
+      <LanguageSwitcher />
+    </div>
     <div
       class="card shadow-lg border-0 rounded-4 overflow-hidden"
       style="max-width: 400px; width: 100%"
     >
       <div class="card-header bg-primary text-white text-center py-4">
-        <h3 class="mb-0 fw-bold">ConCitaMedica</h3>
-        <p class="small mb-0 opacity-75">Portal de Gestión de Citas</p>
+        <h3 class="mb-0 fw-bold">{{ $t('app.title') }}</h3>
+        <p class="small mb-0 opacity-75">{{ $t('auth.login_subtitle') }}</p>
       </div>
 
       <div class="card-body p-4 p-md-5">
-        <h4 class="text-center mb-4 text-dark fw-bold">Iniciar Sesión</h4>
+        <h4 class="text-center mb-4 text-dark fw-bold">{{ $t('auth.login_title') }}</h4>
 
         <div v-if="errorMessage" class="alert alert-danger d-flex align-items-center" role="alert">
           <i class="mdi mdi-alert-circle me-2"></i>
@@ -20,41 +23,43 @@
         <form @submit.prevent="handleLogin">
           <BaseInput
             id="email"
-            label="Correo Electrónico"
+            :label="$t('auth.email')"
             v-model="credentials.email"
             type="email"
-            placeholder="ejemplo@correo.com"
+            :placeholder="$t('auth.email_placeholder')"
             icon="mdi-email-outline"
             required
           />
 
           <BaseInput
             id="password"
-            label="Contraseña"
+            :label="$t('auth.password')"
             v-model="credentials.password"
             type="password"
-            placeholder="••••••••"
+            :placeholder="$t('auth.password_placeholder')"
             icon="mdi-lock-outline"
             required
           />
 
           <div class="d-flex justify-content-end mb-3">
             <RouterLink to="/recuperar" class="text-decoration-none small text-muted">
-              ¿Olvidaste tu contraseña?
+              {{ $t('auth.forgot_password') }}
             </RouterLink>
           </div>
 
-          <BaseButton type="submit" :loading="isLoading" variant="primary"> Ingresar </BaseButton>
+          <BaseButton type="submit" :loading="isLoading" variant="primary">
+            {{ $t('auth.login_btn') }}
+          </BaseButton>
         </form>
 
         <div class="text-center mt-4">
           <p class="small text-muted">
-            ¿No tienes cuenta?
+            {{ $t('auth.no_account') }}
             <RouterLink
               :to="{ name: 'register' }"
               class="fw-bold text-primary text-decoration-none"
             >
-              Regístrate aquí
+              {{ $t('auth.register_link') }}
             </RouterLink>
           </p>
         </div>
@@ -64,6 +69,7 @@
 </template>
 
 <script setup lang="ts">
+import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 import { ref, reactive } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import BaseInput from '@/components/ui/BaseInput.vue'

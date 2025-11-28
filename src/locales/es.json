@@ -1,0 +1,390 @@
+{
+  "app": {
+    "title": "ConCitaMedica",
+    "welcome_user": "¡Hola, {name}!",
+    "welcome_intro": "Bienvenido al panel de control de",
+    "current_role": "Tu rol actual es:"
+  },
+
+  "roles": {
+    "admin": "Administrador",
+    "doctor": "Médico",
+    "patient": "Paciente",
+    "guest": "Invitado"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "profile": "Mi Perfil",
+    "patients": "Pacientes",
+    "doctors": "Médicos",
+    "appointments": "Mis Citas",
+    "my_agenda": "Mi Agenda",
+    "appointments_management": "Gestión Citas",
+    "logout": "Cerrar Sesión"
+  },
+
+  "auth": {
+    "login_title": "Iniciar Sesión",
+    "login_subtitle": "Portal de Gestión de Citas",
+    "email": "Correo Electrónico",
+    "email_placeholder": "ejemplo@correo.com",
+    "password": "Contraseña",
+    "password_placeholder": "••••••••",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "login_btn": "Ingresar",
+    "no_account": "¿No tienes cuenta?",
+    "register_link": "Regístrate aquí",
+
+    "register_title_patient": "Crear Cuenta de Paciente",
+    "register_subtitle": "Únete a ConCitaMedica para gestionar tu salud",
+    "personal_info": "Datos Personales",
+    "contact_info": "Información de Contacto",
+    "account_security": "Seguridad de la Cuenta",
+    "names": "Nombres",
+    "surnames": "Apellidos",
+    "document_id": "Documento de Identidad",
+    "birthdate": "Fecha de Nacimiento",
+    "gender": "Género",
+    "mobile_phone": "Teléfono Móvil",
+    "address": "Dirección de Residencia",
+    "confirm_password": "Confirmar Contraseña",
+    "create_account_btn": "CREAR MI CUENTA",
+    "already_have_account": "¿Ya tienes una cuenta?",
+    "login_here": "Inicia Sesión aquí",
+
+    "placeholder_names": "Ej. Ana María",
+    "placeholder_surnames": "Ej. Pérez López",
+    "placeholder_address": "Ej. Calle 123 # 45-67",
+    "help_names": "Solo letras y espacios. Mínimo 2 caracteres.",
+    "help_document": "Entre 8 y 10 dígitos numéricos.",
+    "help_phone": "Solo números, entre 7 y 15 dígitos.",
+    "help_password_min": "Mínimo 5 caracteres."
+  },
+
+  "dashboard": {
+    "admin_citas_title": "Gestión Global de Citas",
+    "admin_citas_confirm_cancel": "¿Confirma la cancelación? El horario quedará disponible.",
+    "btn_cancel_appointment": "Cancelar Cita",
+
+    "cards": {
+      "patients_title": "Pacientes",
+      "patients_desc": "Administra el directorio de pacientes y sus historias.",
+      "doctors_title": "Médicos",
+      "doctors_desc": "Gestiona el personal médico.",
+      "admin_citas_title": "Control de Citas",
+      "admin_citas_desc": "Supervisa y cancela citas globales.",
+      "patient_citas_title": "Mis Citas",
+      "patient_citas_desc": "Agenda o revisa tus consultas.",
+      "doctor_agenda_title": "Mi Agenda",
+      "doctor_agenda_desc": "Revisa tus consultas del día.",
+      "profile_title": "Mi Perfil",
+      "profile_desc": "Actualiza tus datos personales."
+    },
+    "buttons": {
+      "manage": "Gestionar",
+      "directory": "Directorio",
+      "view_my_appointments": "Ver Mis Citas",
+      "view_agenda": "Ver Agenda",
+      "go_profile": "Ir al Perfil"
+    }
+  },
+
+  "common": {
+    "back": "Volver",
+    "select_placeholder": "Seleccione...",
+    "gender_male": "Masculino",
+    "gender_female": "Femenino",
+    "gender_other": "Otro",
+
+    "gender_MASCULINO": "Masculino",
+    "gender_FEMENINO": "Femenino",
+    "gender_OTRO": "Otro",
+
+    "date_time": "Fecha y Hora",
+    "patient": "Paciente",
+    "doctor": "Médico",
+    "specialty": "Especialidad",
+    "status": "Estado",
+    "id": "ID",
+    "btn_report": "Reporte",
+    "actions": "Acciones",
+    "cancel_btn": "Cancelar",
+    "save_btn": "Guardar"
+  },
+
+  "appointments": {
+    "wizard_title": "Agendar Nueva Cita",
+    "wizard_subtitle": "Sigue los pasos para reservar tu consulta.",
+    "step_1": "Especialidad",
+    "step_2": "Médico",
+    "step_3": "Fecha y Hora",
+
+    "select_specialty": "Selecciona una Especialidad",
+    "select_doctor": "Selecciona un Médico ({specialty})",
+    "no_doctors": "No hay médicos disponibles para esta especialidad actualmente.",
+    "availability_title": "Disponibilidad del {doctor}",
+    "select_date": "Selecciona la Fecha",
+    "available_slots": "Horarios Disponibles:",
+    "loading_slots": "Buscando huecos...",
+    "no_slots": "No hay horarios disponibles para esta fecha. Intenta otro día.",
+
+    "summary_title": "Resumen de la Cita",
+    "summary_specialty": "Especialidad:",
+    "summary_doctor": "Médico:",
+    "summary_date": "Fecha:",
+    "summary_time": "Hora:",
+
+    "cancel_btn": "Cancelar",
+    "confirm_btn": "Confirmar Cita",
+    "confirming_btn": "Confirmando...",
+
+    "success_msg": "¡Cita agendada con éxito!",
+    "error_conflict": "El horario seleccionado ya no está disponible o existe un conflicto con tu agenda.",
+    "error_data": "Ocurrió un error con los datos enviados. Por favor recarga la página.",
+    "error_generic": "Ocurrió un error inesperado. Por favor intenta nuevamente más tarde.",
+
+    "list_title": "Mis Citas Médicas",
+    "list_subtitle": "Consulta tus próximas visitas y el historial.",
+    "btn_schedule_new": "Agendar Cita",
+    "loading_agenda": "Cargando tu agenda...",
+    "empty_title": "No tienes citas programadas",
+    "empty_desc": "Agenda tu primera consulta médica ahora mismo.",
+    "btn_start": "Comenzar",
+    "view_details": "Ver detalles",
+
+    "agenda_title": "Mi Agenda Diaria",
+    "agenda_subtitle": "Gestiona tus consultas del día.",
+    "no_appointments_title": "No hay citas programadas",
+    "no_appointments_desc": "Tu agenda está libre para este día.",
+    "minutes_abbr": "min",
+    "until": "Hasta",
+    "view_clinical_history": "Ver Historia Clínica"
+  },
+
+  "status": {
+    "AGENDADA": "Agendada",
+    "REALIZADA": "Realizada",
+    "CANCELADA_PACIENTE": "Cancelada por ti",
+    "CANCELADA_ADMIN": "Cancelada por la clínica"
+  },
+
+  "medicos": {
+    "create_title": "Registrar Nuevo Médico",
+    "create_subtitle": "Información Profesional",
+    "personal_data": "Datos Personales",
+    "institutional_email": "Correo Institucional",
+    "temp_password": "Contraseña Temporal",
+    "specialty_required": "Especialidad",
+    "select_specialty": "Seleccione una especialidad...",
+    "btn_hire": "Contratar Médico",
+    "back_to_directory": "Volver al directorio",
+
+    "error_load_specialties": "No se pudieron cargar las especialidades.",
+    "error_select_specialty": "Debes seleccionar una especialidad.",
+    "error_create": "Error al crear el perfil del médico.",
+    "success_create": "Médico registrado exitosamente.",
+
+    "edit_title": "Editar Médico",
+    "email_readonly": "Email (No editable)",
+    "success_update": "Datos actualizados correctamente.",
+    "error_update": "Error al guardar cambios.",
+    "error_load": "Error al cargar datos."
+  },
+
+  "schedules": {
+    "title": "Gestión de Horarios",
+    "subtitle": "Configurando agenda para:",
+    "btn_save": "Guardar Cambios",
+    "saving": "Guardando...",
+
+    "table_day": "Día",
+    "table_status": "Estado",
+    "table_start": "Hora Inicio",
+    "table_end": "Hora Fin",
+    "table_actions": "Acciones",
+
+    "copy_next": "Copiar al sgte.",
+    "footer_note": "Los días desmarcados se guardarán como 'No laborables'.",
+
+    "error_load": "Error al cargar la información.",
+    "error_save": "Error al guardar horarios.",
+    "error_time": "Error: La hora de inicio debe ser menor a la hora fin.",
+    "success_save": "Horarios actualizados correctamente.",
+
+    "days": {
+      "LUNES": "Lunes",
+      "MARTES": "Martes",
+      "MIERCOLES": "Miércoles",
+      "JUEVES": "Jueves",
+      "VIERNES": "Viernes",
+      "SABADO": "Sábado",
+      "DOMINGO": "Domingo"
+    }
+  },
+
+  "medicosList": {
+    "header": {
+      "title": "Directorio Médico",
+      "subtitle": "Gestión de especialistas y profesionales.",
+      "btnReport": "Reporte",
+      "btnReportTooltip": "Descargar PDF",
+      "btnNew": "Nuevo Médico"
+    },
+    "filters": {
+      "searchPlaceholder": "Buscar por Nombre, ID o Documento...",
+      "allSpecialties": "Todas las Especialidades",
+      "showInactive": "Mostrar Inactivos",
+      "results": "resultados"
+    },
+    "state": {
+      "loading": "Cargando especialistas..."
+    },
+    "table": {
+      "thead": {
+        "doctor": "Médico",
+        "specialty": "Especialidad",
+        "contact": "Contacto",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "row": {
+        "id": "ID",
+        "doc": "Doc",
+        "statusActive": "Activo",
+        "statusInactive": "Inactivo"
+      },
+      "empty": "No se encontraron médicos que coincidan con los filtros."
+    },
+    "actions": {
+      "tooltipEdit": "Editar",
+      "tooltipSchedule": "Gestionar Horarios",
+      "tooltipReactivate": "Reactivar Médico",
+      "tooltipDelete": "Dar de baja"
+    },
+    "messages": {
+      "confirmDelete": "¿Estás seguro de dar de baja a este médico? Se cancelarán sus citas futuras.",
+      "confirmReactivate": "¿Deseas reactivar a este médico? Podrá iniciar sesión y recibir citas nuevamente.",
+      "errorReport": "Error al generar el reporte PDF"
+    }
+  },
+
+  "pacientes": {
+    "create": {
+      "title": "Registrar Nuevo Paciente",
+      "back_to_list": "Volver a la lista",
+      "form": {
+        "name": "Nombre",
+        "name_placeholder": "Ej. Juan",
+        "surname": "Apellido",
+        "surname_placeholder": "Ej. Pérez",
+        "document": "Documento",
+        "birthdate": "Fecha de Nacimiento",
+        "gender": "Género",
+        "select_placeholder": "Seleccione...",
+        "phone": "Teléfono",
+        "email": "Email",
+        "address": "Dirección"
+      },
+      "validation": {
+        "text_chars_help": "Solo letras, espacios, acentos, guiones o apóstrofes. Entre 2 y 40 caracteres.",
+        "doc_help": "Entre 8 y 10 dígitos numéricos (sin puntos ni espacios)",
+        "phone_help": "Entre 7 y 15 dígitos numéricos"
+      },
+
+      "buttons": {
+        "cancel": "Cancelar",
+        "save": "Guardar Paciente"
+      }
+    },
+
+    "edit": {
+      "title": "Editar Paciente",
+      "back": "Volver",
+      "validation": {
+        "phone_help": "Entre 7 y 15 números",
+        "email_help": "Formato válido requerido: usuario@dominio.com",
+        "address_help": "Debe tener entre 5 y 100 caracteres."
+      },
+      "buttons": {
+        "cancel": "Cancelar",
+        "save_changes": "Guardar Cambios"
+      },
+      "messages": {
+        "success_update": "Paciente actualizado correctamente",
+        "error_update": "Error al actualizar"
+      }
+    },
+
+    "list": {
+      "header": {
+        "title": "Pacientes",
+        "subtitle": "Gestión del directorio de pacientes.",
+        "btnReport": "Reporte",
+        "btnReportTooltip": "Descargar PDF",
+        "btnNew": "Nuevo Paciente"
+      },
+      "filters": {
+        "searchPlaceholder": "Buscar por Nombre, Documento o Email...",
+        "showInactive": "Mostrar Inactivos",
+        "results": "pacientes encontrados"
+      },
+      "table": {
+        "thead": {
+          "patient": "Paciente",
+          "document": "Documento",
+          "contact": "Contacto",
+          "status": "Estado",
+          "actions": "Acciones"
+        },
+        "row": {
+          "statusActive": "Activo",
+          "statusInactive": "Inactivo"
+        }
+      },
+      "actions": {
+        "tooltipEdit": "Editar",
+        "tooltipReactivate": "Reactivar Paciente",
+        "tooltipDelete": "Inactivar Paciente"
+      },
+      "messages": {
+        "confirmDelete": "¿Inactivar paciente? Se cancelarán sus citas futuras.",
+        "confirmReactivate": "¿Reactivar paciente? Podrá volver a iniciar sesión.",
+        "errorReport": "Error al generar el reporte PDF"
+      }
+    }
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "form": {
+      "name": "Nombre",
+      "surname": "Apellido",
+      "document": "Documento",
+      "birthdate": "Fecha de Nacimiento",
+      "gender": "Género",
+      "phone": "Teléfono",
+      "address": "Dirección"
+    },
+    "security": {
+      "title": "Seguridad",
+      "btn_change": "Cambiar Contraseña",
+      "btn_cancel": "Cancelar Cambio",
+      "current_label": "Contraseña Actual",
+      "current_placeholder": "••••••",
+      "new_label": "Nueva Contraseña",
+      "new_placeholder": "Mínimo 5 caracteres",
+      "confirm_label": "Confirmar Nueva",
+      "confirm_placeholder": "Repite la nueva",
+      "btn_confirm": "Confirmar Cambio de Clave"
+    },
+    "buttons": {
+      "update": "Actualizar Datos"
+    },
+    "messages": {
+      "success_update": "Perfil actualizado correctamente",
+      "error_update": "Error al actualizar el perfil",
+      "error_mismatch": "Las nuevas contraseñas no coinciden.",
+      "success_password": "Contraseña actualizada correctamente. Por favor inicia sesión de nuevo.",
+      "error_password": "Error al cambiar la contraseña"
+    }
+  }
+}

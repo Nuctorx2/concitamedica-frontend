@@ -2,12 +2,20 @@
   <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div>
-        <h3 class="fw-bold text-dark">Directorio Médico</h3>
-        <p class="text-muted mb-0">Gestión de especialistas y profesionales.</p>
+        <h3 class="fw-bold text-dark">{{ $t('medicosList.header.title') }}</h3>
+        <p class="text-muted mb-0">{{ $t('medicosList.header.subtitle') }}</p>
       </div>
 
+      <button
+        class="btn btn-outline-danger me-2"
+        @click="descargarReporte"
+        :title="$t('medicosList.header.btnReportTooltip')"
+      >
+        <i class="mdi mdi-file-pdf-box"></i> {{ $t('medicosList.header.btnReport') }}
+      </button>
+
       <RouterLink :to="{ name: 'medicos-create' }" class="btn btn-primary">
-        <i class="mdi mdi-doctor me-1"></i> Nuevo Médico
+        <i class="mdi mdi-doctor me-1"></i> {{ $t('medicosList.header.btnNew') }}
       </RouterLink>
     </div>
 
@@ -22,7 +30,7 @@
               <input
                 type="text"
                 class="form-control border-start-0 ps-0"
-                placeholder="Buscar por Nombre, ID o Documento..."
+                :placeholder="$t('medicosList.filters.searchPlaceholder')"
                 v-model="textoBusqueda"
               />
             </div>
@@ -30,7 +38,7 @@
 
           <div class="col-md-3">
             <select class="form-select" v-model="especialidadFiltro">
-              <option value="">Todas las Especialidades</option>
+              <option value="">{{ $t('medicosList.filters.allSpecialties') }}</option>
               <option v-for="esp in listaEspecialidades" :key="esp" :value="esp">
                 {{ esp }}
               </option>
@@ -46,13 +54,14 @@
                 v-model="mostrarInactivos"
               />
               <label class="form-check-label small text-secondary" for="filterInactive">
-                Mostrar Inactivos
+                {{ $t('medicosList.filters.showInactive') }}
               </label>
             </div>
           </div>
 
           <div class="col-md-2 text-end text-muted small">
-            <strong>{{ medicosFiltrados.length }}</strong> resultados
+            <strong>{{ medicosFiltrados.length }}</strong>
+            {{ $t('medicosList.filters.results') }}
           </div>
         </div>
       </div>
@@ -60,7 +69,7 @@
 
     <div v-if="store.loading && store.medicos.length === 0" class="text-center py-5">
       <div class="spinner-border text-primary" role="status"></div>
-      <p class="mt-2 text-muted">Cargando especialistas...</p>
+      <p class="mt-2 text-muted">{{ $t('medicosList.state.loading') }}</p>
     </div>
 
     <div v-else-if="store.error" class="alert alert-danger">
@@ -73,11 +82,21 @@
           <table class="table table-hover align-middle mb-0">
             <thead class="bg-light">
               <tr>
-                <th class="ps-4 py-3 text-uppercase text-secondary small">Médico</th>
-                <th class="py-3 text-uppercase text-secondary small">Especialidad</th>
-                <th class="py-3 text-uppercase text-secondary small">Contacto</th>
-                <th class="py-3 text-uppercase text-secondary small">Estado</th>
-                <th class="pe-4 py-3 text-end text-uppercase text-secondary small">Acciones</th>
+                <th class="ps-4 py-3 text-uppercase text-secondary small">
+                  {{ $t('medicosList.table.thead.doctor') }}
+                </th>
+                <th class="py-3 text-uppercase text-secondary small">
+                  {{ $t('medicosList.table.thead.specialty') }}
+                </th>
+                <th class="py-3 text-uppercase text-secondary small">
+                  {{ $t('medicosList.table.thead.contact') }}
+                </th>
+                <th class="py-3 text-uppercase text-secondary small">
+                  {{ $t('medicosList.table.thead.status') }}
+                </th>
+                <th class="pe-4 py-3 text-end text-uppercase text-secondary small">
+                  {{ $t('medicosList.table.thead.actions') }}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -89,13 +108,15 @@
                     </div>
                     <div>
                       <div class="fw-bold text-dark">{{ medico.nombre }} {{ medico.apellido }}</div>
-                      <div class="small text-muted">ID: {{ medico.id }}</div>
+                      <div class="small text-muted">
+                        {{ $t('medicosList.table.row.id') }}: {{ medico.id }}
+                      </div>
                       <div
                         v-if="medico.documento"
                         class="small text-muted"
                         style="font-size: 0.75rem"
                       >
-                        Doc: {{ medico.documento }}
+                        {{ $t('medicosList.table.row.doc') }}: {{ medico.documento }}
                       </div>
                     </div>
                   </div>
@@ -121,7 +142,11 @@
                         : 'bg-secondary-subtle text-secondary border-secondary-subtle'
                     "
                   >
-                    {{ medico.activo ? 'Activo' : 'Inactivo' }}
+                    {{
+                      medico.activo
+                        ? $t('medicosList.table.row.statusActive')
+                        : $t('medicosList.table.row.statusInactive')
+                    }}
                   </span>
                 </td>
 
@@ -131,7 +156,7 @@
                       v-if="medico.activo"
                       :to="{ name: 'medicos-edit', params: { id: medico.id } }"
                       class="btn-icon btn-edit"
-                      title="Editar"
+                      :title="$t('medicosList.actions.tooltipEdit')"
                     >
                       <i class="mdi mdi-pencil-outline"></i>
                     </RouterLink>
@@ -140,7 +165,7 @@
                       v-if="medico.activo"
                       :to="{ name: 'medicos-horarios', params: { id: medico.id } }"
                       class="btn-icon btn-schedule"
-                      title="Gestionar Horarios"
+                      :title="$t('medicosList.actions.tooltipSchedule')"
                     >
                       <i class="mdi mdi-calendar-clock"></i>
                     </RouterLink>
@@ -148,7 +173,7 @@
                     <button
                       v-if="!medico.activo"
                       class="btn-icon btn-restore"
-                      title="Reactivar Médico"
+                      :title="$t('medicosList.actions.tooltipReactivate')"
                       @click="reactivarMedico(medico.id)"
                     >
                       <i class="mdi mdi-refresh"></i>
@@ -157,7 +182,7 @@
                     <button
                       v-if="medico.activo"
                       class="btn-icon btn-delete"
-                      title="Dar de baja"
+                      :title="$t('medicosList.actions.tooltipDelete')"
                       @click="eliminarMedico(medico.id)"
                     >
                       <i class="mdi mdi-account-remove-outline"></i>
@@ -171,7 +196,7 @@
                   <div class="mb-2">
                     <i class="mdi mdi-magnify fs-1 opacity-50"></i>
                   </div>
-                  No se encontraron médicos que coincidan con los filtros.
+                  {{ $t('medicosList.table.empty') }}
                 </td>
               </tr>
             </tbody>
@@ -183,12 +208,13 @@
 </template>
 
 <script setup lang="ts">
+import apiClient from '@/services/apiClient'
 import { ref, computed, onMounted } from 'vue'
 import { useMedicosStore } from '@/store/medicos'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const store = useMedicosStore()
-
-// Estados de los filtros
 const mostrarInactivos = ref(false)
 const textoBusqueda = ref('')
 const especialidadFiltro = ref('')
@@ -197,47 +223,55 @@ onMounted(() => {
   store.fetchMedicos()
 })
 
-// 1. Extraer lista única de especialidades para llenar el <select>
 const listaEspecialidades = computed(() => {
   const especialidades = store.medicos.map((m) => m.especialidadNombre)
-  // Usamos Set para eliminar duplicados y luego convertimos a Array
   return Array.from(new Set(especialidades)).sort()
 })
 
-// 2. El Super Filtro Combinado
 const medicosFiltrados = computed(() => {
   return store.medicos.filter((medico) => {
-    // A. Filtro de Estado (Activo/Inactivo)
     const pasaEstado = mostrarInactivos.value ? true : medico.activo
-
-    // B. Filtro de Texto (Nombre, Documento, ID)
     const texto = textoBusqueda.value.toLowerCase()
     const pasaTexto =
       medico.nombre.toLowerCase().includes(texto) ||
-      (medico.documento && medico.documento.includes(texto)) || // Validamos que documento exista
+      (medico.documento && medico.documento.includes(texto)) ||
       medico.id.toString().includes(texto)
 
-    // C. Filtro de Especialidad
     const pasaEspecialidad = especialidadFiltro.value
       ? medico.especialidadNombre === especialidadFiltro.value
       : true
 
-    // Tienen que cumplirse las 3 condiciones
     return pasaEstado && pasaTexto && pasaEspecialidad
   })
 })
 
 function eliminarMedico(id: number) {
-  if (confirm('¿Estás seguro de dar de baja a este médico? Se cancelarán sus citas futuras.')) {
+  if (confirm(t('medicosList.messages.confirmDelete'))) {
     store.eliminarMedico(id)
   }
 }
 
 function reactivarMedico(id: number) {
-  if (
-    confirm('¿Deseas reactivar a este médico? Podrá iniciar sesión y recibir citas nuevamente.')
-  ) {
+  if (confirm(t('medicosList.messages.confirmReactivate'))) {
     store.reactivarMedico(id)
+  }
+}
+
+async function descargarReporte() {
+  try {
+    const response = await apiClient.get('/admin/reportes/medicos', {
+      responseType: 'blob',
+    })
+
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'medicos_reporte.pdf')
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  } catch (e) {
+    alert(t('medicosList.messages.errorReport'))
   }
 }
 </script>
