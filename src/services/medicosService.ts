@@ -8,7 +8,7 @@ export interface Medico {
   documento: string
   telefono: string
   direccion: string
-  fechaNacimiento: string // string YYYY-MM-DD
+  fechaNacimiento: string
   genero: string
   especialidadNombre: string
   especialidadId: number
@@ -54,7 +54,6 @@ const medicosService = {
 
   // Buscar por especialidad (Público/Paciente)
   async buscarPorEspecialidad(especialidadId: number): Promise<Medico[]> {
-    // Endpoint: /api/medicos/buscar?especialidadId=X
     const res = await apiClient.get<Medico[]>('/medicos/buscar', {
       params: { especialidadId },
     })
@@ -68,7 +67,6 @@ const medicosService = {
 
   // Obtener por ID (Admin)
   async getById(id: number): Promise<Medico> {
-    // Nota: Asegúrate de que en Java AdminMedicoController tenga @GetMapping("/{id}")
     const res = await apiClient.get<Medico>(`/admin/medicos/${id}`)
     return res.data
   },

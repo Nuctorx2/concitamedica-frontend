@@ -46,7 +46,7 @@ defineEmits<{
 <style scoped lang="scss">
 .form-control:focus {
   box-shadow: none;
-  border-color: var(--color-primary, #006655); // Usamos variable CSS si existe
+  border-color: var(--color-primary, #006655);
 }
 .input-group-text {
   color: #6c757d;

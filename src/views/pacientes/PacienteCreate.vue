@@ -146,7 +146,6 @@ import type { PacienteCreateRequest } from '@/services/pacientesService'
 const router = useRouter()
 const store = usePacientesStore()
 
-// Inicializamos con todos los campos requeridos por el Backend
 const form = reactive<PacienteCreateRequest>({
   nombre: '',
   apellido: '',
@@ -160,16 +159,13 @@ const form = reactive<PacienteCreateRequest>({
 })
 
 async function handleSubmit() {
-  // Asignamos una contraseña temporal por defecto
   form.password = '12345678'
-  // Limpiamos el teléfono si viene vacío para evitar errores
   if (!form.telefono) delete (form as any).telefono
 
   try {
     await store.crearPaciente(form)
     router.push({ name: 'pacientes' })
   } catch (error) {
-    // El manejo de errores global (Toast/Alert) se suele hacer en el interceptor de Axios o en el Store
     console.error(error)
   }
 }

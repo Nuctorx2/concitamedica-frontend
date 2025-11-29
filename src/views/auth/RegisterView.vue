@@ -198,22 +198,19 @@ const loading = ref(false)
 const errorMsg = ref('')
 const confirmPassword = ref('')
 
-// Objeto reactivo con TODOS los campos requeridos por RegistroUsuarioDTO
 const form = reactive({
   nombre: '',
   apellido: '',
   documento: '',
   fechaNacimiento: '',
-  genero: '', // El select lo llena
-  telefono: '', // Requerido ahora por DTO
-  direccion: '', // Opcional en DB, pero lo pedimos
+  genero: '',
+  telefono: '',
+  direccion: '',
   email: '',
   password: '',
-  // Nota: NO enviamos 'rol'. El backend asigna ROLE_PACIENTE por defecto.
 })
 
 async function handleRegister() {
-  // 1. Validación local de contraseñas
   if (form.password !== confirmPassword.value) {
     errorMsg.value = 'Las contraseñas no coinciden. Por favor verifica.'
     return
@@ -223,19 +220,15 @@ async function handleRegister() {
   errorMsg.value = ''
 
   try {
-    // 2. Llamada al servicio
     await authService.register(form)
-
-    // 3. Éxito
     alert('¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.')
     router.push({ name: 'login' })
   } catch (e: any) {
-    // 4. Manejo de errores (Backend messages)
     console.error('Error registro:', e)
 
     const backendMessage = e.response?.data?.message
     if (backendMessage) {
-      errorMsg.value = backendMessage // Ej: "El email ya está registrado"
+      errorMsg.value = backendMessage
     } else if (e.response?.status === 400) {
       errorMsg.value = 'Datos inválidos. Por favor revisa la información ingresada.'
     } else {
@@ -253,7 +246,7 @@ async function handleRegister() {
 $primary: #006655;
 
 .register-container {
-  background-color: #e8f6f4; // Neutro de tu paleta
+  background-color: #e8f6f4;
   min-height: 100vh;
 }
 

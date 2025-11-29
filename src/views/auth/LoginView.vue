@@ -75,7 +75,6 @@ import { useAuthStore } from '@/store/auth'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
-// State Management local para el formulario
 const credentials = reactive({
   email: '',
   password: '',
@@ -84,7 +83,6 @@ const credentials = reactive({
 const isLoading = ref(false)
 const errorMessage = ref('')
 
-// Acceso a Pinia (Single Source of Truth)
 const authStore = useAuthStore()
 
 async function handleLogin() {
@@ -92,14 +90,11 @@ async function handleLogin() {
   errorMessage.value = ''
 
   try {
-    // Delegamos la lógica de negocio al Store
     await authStore.login({
       email: credentials.email,
       password: credentials.password,
     })
-    // La redirección la maneja el Store o el Router tras el éxito
   } catch (error: any) {
-    // Manejo de errores básicos de UI
     console.error(error)
     if (error.response && error.response.status === 401) {
       errorMessage.value = 'Credenciales incorrectas. Verifique su correo y contraseña.'
@@ -114,11 +109,10 @@ async function handleLogin() {
 
 <style scoped lang="scss">
 .bg-primary {
-  // Usamos tu paleta oficial
   background-color: #006655 !important;
 }
 
 .login-container {
-  background-color: #e8f6f4; // Color Neutro de tu paleta
+  background-color: #e8f6f4;
 }
 </style>

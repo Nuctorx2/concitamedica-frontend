@@ -14,7 +14,6 @@ export const usePacientesStore = defineStore('pacientes', {
   }),
 
   getters: {
-    // Un getter útil para saber cuántos tenemos
     totalPacientes: (state) => state.pacientes.length,
   },
 
@@ -66,13 +65,11 @@ export const usePacientesStore = defineStore('pacientes', {
       }
     },
 
-    //Acción para cargar UN paciente (al entrar a editar)
     async fetchPacienteById(id: number) {
       this.loading = true
       this.error = null
       this.pacienteActual = null
       try {
-        // Nota: Asegúrate que pacientesService.getById apunte a /admin/pacientes/{id}
         const data = await pacientesService.getById(id)
         this.pacienteActual = data
       } catch (err: any) {
@@ -83,14 +80,11 @@ export const usePacientesStore = defineStore('pacientes', {
       }
     },
 
-    //Acción para actualizar
     async actualizarPaciente(id: number, datos: PacienteUpdateRequest) {
       this.loading = true
       this.error = null
       try {
         const actualizado = await pacientesService.update(id, datos)
-
-        // Actualizar la lista local para reflejar cambios sin recargar
         const index = this.pacientes.findIndex((p) => p.id === id)
         if (index !== -1) {
           this.pacientes[index] = actualizado
@@ -110,7 +104,6 @@ export const usePacientesStore = defineStore('pacientes', {
       this.error = null
       try {
         await pacientesService.reactivate(id)
-        // Update local: marcar como activo
         const p = this.pacientes.find((x) => x.id === id)
         if (p) p.activo = true
       } catch (err: any) {

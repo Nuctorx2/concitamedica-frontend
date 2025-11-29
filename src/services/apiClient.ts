@@ -41,8 +41,6 @@ export function clearAccessToken() {
 }
 
 // --- Interceptores ---
-
-// 1. REQUEST: Inyectar Token
 apiClient.interceptors.request.use(
   (config) => {
     const token = getTokenFromStore()
@@ -57,13 +55,10 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    // CASO ESPECIAL: Error en descarga de archivos (Blob)
-    // Si pedimos un PDF (blob) pero el servidor devuelve un JSON de error (ej. 403),
-    // Axios lo envuelve en un Blob. Hay que leerlo para mostrar el mensaje real.
     if (error.response?.data instanceof Blob && error.response.data.type === 'application/json') {
       try {
         const errorText = await (error.response.data as Blob).text()
-        error.response.data = JSON.parse(errorText) // Reemplazamos el blob por el JSON real
+        error.response.data = JSON.parse(errorText)
       } catch (e) {
         console.error('Error parseando blob de error', e)
       }
@@ -74,7 +69,7 @@ apiClient.interceptors.response.use(
     // CASO 401: Token Expirado o Inválido
     if (status === 401) {
       console.warn('Sesión expirada o inválida. Redirigiendo al login.')
-      clearAccessToken() // Limpieza completa
+      clearAccessToken()
       router.replace({ name: 'login' }).catch(() => {
         /* noop */
       })

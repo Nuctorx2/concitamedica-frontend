@@ -139,15 +139,13 @@ const { t } = useI18n()
 const userName = computed(() => auth.user?.nombre || 'Usuario')
 const userRoleRaw = computed(() => auth.user?.rol || '')
 
-// Lógica visual
 const isPaciente = computed(() => auth.isPaciente)
 
-// Ruta dinámica para el módulo de citas según el rol
 const citasRoute = computed(() => {
   if (auth.isMedico) {
-    return { name: 'medico-agenda' } // Ruta del Médico
+    return { name: 'medico-agenda' }
   } else {
-    return { name: 'citas' } // Ruta del Paciente
+    return { name: 'citas' }
   }
 })
 
@@ -172,7 +170,6 @@ const canViewPatients = computed(
 <style scoped lang="scss">
 @use 'sass:color';
 
-// Variables locales basadas en tu paleta
 $primary: #006655;
 $accent: #ff5722;
 $neutral: #e8f6f4;
@@ -185,7 +182,6 @@ $neutral: #e8f6f4;
   background-color: $accent !important;
 }
 
-// Estilos para los círculos de iconos
 .icon-circle {
   width: 64px;
   height: 64px;
@@ -209,7 +205,6 @@ $neutral: #e8f6f4;
   }
 }
 
-// Botones outline personalizados
 .btn-outline-primary {
   border-color: $primary;
   color: $primary;

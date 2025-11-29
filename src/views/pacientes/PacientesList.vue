@@ -184,11 +184,11 @@ import apiClient from '@/services/apiClient'
 import { ref, computed, onMounted } from 'vue'
 import { usePacientesStore } from '@/store/pacientes'
 import { useAuthStore } from '@/store/auth'
-import { useI18n } from 'vue-i18n' // 1. Importar hook de i18n
+import { useI18n } from 'vue-i18n'
 
 const store = usePacientesStore()
 const auth = useAuthStore()
-const { t } = useI18n() // 2. Obtener función t
+const { t } = useI18n()
 
 const mostrarInactivos = ref(false)
 const textoBusqueda = ref('')
@@ -197,15 +197,11 @@ onMounted(() => {
   store.fetchPacientes()
 })
 
-// Filtro Inteligente
 const pacientesFiltrados = computed(() => {
   return store.pacientes.filter((p) => {
-    // 1. Filtro Estado (Si no es admin, SIEMPRE solo activos)
-    // Si es admin, depende del switch
     const mostrar = auth.isAdmin ? (mostrarInactivos.value ? true : p.activo) : p.activo
     if (!mostrar) return false
 
-    // 2. Filtro Texto
     const texto = textoBusqueda.value.toLowerCase()
     const coincide =
       p.nombre.toLowerCase().includes(texto) ||
@@ -217,20 +213,17 @@ const pacientesFiltrados = computed(() => {
   })
 })
 
-// Helpers y Acciones
 function getInitials(n: string, a: string) {
   return `${n.charAt(0)}${a.charAt(0)}`.toUpperCase()
 }
 
 function eliminar(id: number) {
-  // 3. Usar t() para confirmar eliminación
   if (confirm(t('pacientes.list.messages.confirmDelete'))) {
     store.eliminarPaciente(id)
   }
 }
 
 function reactivar(id: number) {
-  // 4. Usar t() para confirmar reactivación
   if (confirm(t('pacientes.list.messages.confirmReactivate'))) {
     store.reactivarPaciente(id)
   }
@@ -250,7 +243,6 @@ async function descargarReporte() {
     link.click()
     document.body.removeChild(link)
   } catch (e) {
-    // 5. Usar t() para error de reporte
     alert(t('pacientes.list.messages.errorReport'))
   }
 }

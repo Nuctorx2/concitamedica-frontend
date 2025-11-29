@@ -1,9 +1,7 @@
-// src/store/auth.ts
 import { defineStore } from 'pinia'
 import router from '@/router'
 import authService, { type LoginRequest, ProfileUpdateRequest } from '@/services/authService'
 
-// 👇 CORRECCIÓN 1: Usamos 'rol' (como en Java) y no 'role'.
 export interface User {
   id: number
   nombre: string
@@ -26,7 +24,6 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     isAuthenticated: (state) => !!state.accessToken,
-    // Helper para verificar roles fácilmente en las vistas
     isAdmin: (state) => state.user?.rol === 'ROLE_ADMIN',
     isPaciente: (state) => state.user?.rol === 'ROLE_PACIENTE',
     isMedico: (state) => state.user?.rol === 'ROLE_MEDICO',
@@ -35,23 +32,19 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(credentials: LoginRequest) {
       try {
-        // 1. Login para obtener token
         const response = await authService.login(credentials)
         this.setAccessToken(response.token)
 
-        // 2. Usar el token para obtener datos del usuario
         const user = await authService.getMe()
         this.setUser(user)
 
-        // 3. Redirigir al dashboard
-        router.push({ name: 'dashboard' }) // Asegúrate que en router se llame 'dashboard'
+        router.push({ name: 'dashboard' })
       } catch (error) {
         console.error('Error en login:', error)
         throw error
       }
     },
 
-    // 👇 CORRECCIÓN 2: Esta función es la cura para la amnesia
     initializeFromStorage() {
       const rawToken = localStorage.getItem('ccm_access_token')
       const rawUser = localStorage.getItem('ccm_user')
@@ -65,7 +58,7 @@ export const useAuthStore = defineStore('auth', {
           this.user = JSON.parse(rawUser)
         } catch (e) {
           console.error('Error recuperando usuario de storage')
-          this.logout() // Si está corrupto, mejor limpiar
+          this.logout()
         }
       }
       this.initialized = true
@@ -78,7 +71,6 @@ export const useAuthStore = defineStore('auth', {
 
     setUser(user: User) {
       this.user = user
-      // Guardamos el objeto usuario completo
       localStorage.setItem('ccm_user', JSON.stringify(user))
     },
 
@@ -87,13 +79,12 @@ export const useAuthStore = defineStore('auth', {
       this.user = null
       localStorage.removeItem('ccm_access_token')
       localStorage.removeItem('ccm_user')
-      router.push({ name: 'login' }) // Usar push en vez de replace suele ser más seguro aquí
+      router.push({ name: 'login' })
     },
 
     async actualizarPerfil(datos: ProfileUpdateRequest) {
       try {
         const usuarioActualizado = await authService.updateProfile(datos)
-        // Actualizamos el estado local y el localStorage
         this.setUser(usuarioActualizado)
         return true
       } catch (e) {

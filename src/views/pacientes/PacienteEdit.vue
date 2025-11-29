@@ -147,12 +147,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { usePacientesStore } from '@/store/pacientes'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
-import { useI18n } from 'vue-i18n' // Importación necesaria
+import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
 const router = useRouter()
 const store = usePacientesStore()
-const { t } = useI18n() // Hook para traducciones en JS
+const { t } = useI18n()
 
 const saving = ref(false)
 const pacienteId = Number(route.params.id)
@@ -188,11 +188,9 @@ async function handleUpdate() {
   saving.value = true
   try {
     await store.actualizarPaciente(pacienteId, form)
-    // Mensaje de éxito traducido
     alert(t('pacientes.edit.messages.success_update'))
     router.push({ name: 'pacientes' })
   } catch (error) {
-    // Mensaje de error traducido
     alert(t('pacientes.edit.messages.error_update'))
   } finally {
     saving.value = false

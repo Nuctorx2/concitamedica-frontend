@@ -171,7 +171,6 @@ function inicializarFormulario() {
 }
 
 function recortarSegundos(hora: string) {
-  // Backend envía "08:00:00", Input time necesita "08:00"
   return hora.substring(0, 5)
 }
 

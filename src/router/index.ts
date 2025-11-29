@@ -132,7 +132,7 @@ const router = createRouter({
   ],
 })
 
-// ---- Guard global ----
+// Guard global
 router.beforeEach((to, _, next) => {
   const auth = useAuthStore()
 

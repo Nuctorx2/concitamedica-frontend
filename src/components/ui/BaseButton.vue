@@ -30,16 +30,14 @@ withDefaults(
 </script>
 
 <style scoped lang="scss">
-@use 'sass:color'; // 👈 ¡Esta línea es obligatoria!
+@use 'sass:color';
 
-// Ajuste específico para usar tu paleta
 .btn-primary {
   background-color: #006655;
   border-color: #006655;
   color: white;
 
   &:hover {
-    // 👇 Aquí está la magia para quitar el warning
     background-color: color.adjust(#006655, $lightness: -5%);
   }
 }

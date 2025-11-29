@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-// 👇 Aseguramos que importamos el archivo con el nuevo nombre
 import AppSidebar from '@/components/layout/AppSidebar.vue'
 </script>
 
@@ -18,7 +17,7 @@ $background: #f5f5f5;
 
 .layout-container {
   height: 100vh;
-  display: flex; /* Obligatorio para que se pongan lado a lado */
+  display: flex;
   overflow: hidden;
 }
 
@@ -26,6 +25,6 @@ $background: #f5f5f5;
   background: $background;
   overflow-y: auto;
   width: 100%;
-  position: relative; /* Ayuda a posicionar elementos internos */
+  position: relative;
 }
 </style>

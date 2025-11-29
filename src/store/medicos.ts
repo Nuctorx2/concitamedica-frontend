@@ -45,8 +45,6 @@ export const useMedicosStore = defineStore('medicos', {
       this.loading = true
       try {
         await medicosService.delete(id)
-        // Actualizamos la lista localmente:
-        // Buscamos el médico y lo marcamos como inactivo (Soft Delete)
         const medico = this.medicos.find((m) => m.id === id)
         if (medico) medico.activo = false
       } catch (e) {
@@ -74,7 +72,6 @@ export const useMedicosStore = defineStore('medicos', {
       this.loading = true
       try {
         await medicosService.update(id, datos)
-        // Podríamos recargar la lista completa o actualizar solo este item
         await this.fetchMedicos()
       } catch (e: any) {
         throw e
@@ -87,7 +84,6 @@ export const useMedicosStore = defineStore('medicos', {
       this.loading = true
       try {
         await medicosService.reactivate(id)
-        // Actualizamos la lista localmente
         const medico = this.medicos.find((m) => m.id === id)
         if (medico) medico.activo = true
       } catch (e) {

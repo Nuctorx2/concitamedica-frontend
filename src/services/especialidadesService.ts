@@ -8,7 +8,6 @@ export interface Especialidad {
 
 const especialidadesService = {
   async getAll(): Promise<Especialidad[]> {
-    // Endpoint que creamos al principio: /api/especialidades
     const res = await apiClient.get<Especialidad[]>('/especialidades')
     return res.data
   },

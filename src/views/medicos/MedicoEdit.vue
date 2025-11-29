@@ -173,13 +173,8 @@ const form = reactive({
 
 onMounted(async () => {
   try {
-    // 1. Cargar catálogos
     especialidades.value = await especialidadesService.getAll()
-
-    // 2. Cargar médico
     await store.fetchMedicoById(medicoId)
-
-    // 3. Llenar formulario
     if (store.medicoActual) {
       const m = store.medicoActual
       form.nombre = m.nombre
@@ -190,7 +185,6 @@ onMounted(async () => {
       form.fechaNacimiento = m.fechaNacimiento
       form.genero = m.genero
       form.especialidadId = m.especialidadId
-
       emailReadOnly.value = m.email
     }
   } catch (e) {

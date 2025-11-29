@@ -14,14 +14,14 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173, // Puerto del frontend
+    port: 5173,
     https: {
       key: fs.readFileSync('./localhost+1-key.pem'),
       cert: fs.readFileSync('./localhost+1.pem'),
     },
     proxy: {
       '/api': {
-        target: 'https://localhost:8080', // Backend Java
+        target: 'https://localhost:8080',
         changeOrigin: true,
         secure: false,
       },

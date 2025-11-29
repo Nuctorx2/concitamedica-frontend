@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": ".", // ← FALTA ESTO (OBLIGATORIO)
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"] // ← quita el "./" para evitar ambigüedades
+      "@/*": ["src/*"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

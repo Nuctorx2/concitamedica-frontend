@@ -181,9 +181,9 @@ import { useAuthStore } from '@/store/auth'
 import authService from '@/services/authService'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
-import { useI18n } from 'vue-i18n' // Importar hook
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n() // Obtener función t
+const { t } = useI18n()
 const showPasswordForm = ref(false)
 const passForm = reactive({
   actual: '',
@@ -204,7 +204,6 @@ const form = reactive({
   genero: '',
 })
 
-// Computed
 const initials = computed(() => {
   const n = authStore.user?.nombre || ''
   return n.substring(0, 2).toUpperCase()
@@ -212,14 +211,10 @@ const initials = computed(() => {
 
 const userRole = computed(() => {
   const r = authStore.user?.rol || ''
-  // 1. Limpiamos 'ROLE_' -> 'ADMIN'
-  // 2. Convertimos a minúsculas -> 'admin'
-  // 3. Traducimos usando la clave 'roles.admin' del JSON
   const cleanRole = r.replace('ROLE_', '').toLowerCase()
   return t(`roles.${cleanRole}`)
 })
 
-// Cargar datos frescos al montar
 onMounted(async () => {
   try {
     const user = await authService.getMe()
@@ -260,8 +255,6 @@ async function handleChangePassword() {
     alert(t('profile.messages.success_password'))
     authStore.logout()
   } catch (e: any) {
-    // Si el error tiene un mensaje específico del backend, lo mostramos,
-    // sino mostramos el genérico traducido
     const msg = e.response?.data?.message || t('profile.messages.error_password')
     alert(msg)
   } finally {
@@ -271,7 +264,6 @@ async function handleChangePassword() {
 
 function togglePasswordForm() {
   showPasswordForm.value = !showPasswordForm.value
-  // Limpiar campos al cerrar/abrir
   passForm.actual = ''
   passForm.nueva = ''
   passForm.confirmacion = ''

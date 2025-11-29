@@ -1,5 +1,3 @@
-// src/config/navigation.ts
-
 export interface NavItem {
   label: string
   to: string
